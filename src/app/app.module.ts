@@ -4,10 +4,13 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {MessagesComponent} from './component/messages/messages.component';
 import {InputFieldComponent} from './component/input-field/input-field.component';
-import {FormsModule} from '@angular/forms';
-import { ChatRoomsComponent } from './component/chat-rooms/chat-rooms.component';
-import { ControlCenterComponent } from './component/control-center/control-center.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // <-- NgModel lives here
+import {ChatRoomsComponent} from './component/chat-rooms/chat-rooms.component';
+import {ControlCenterComponent} from './component/control-center/control-center.component';
+import {LoginComponent} from "./component/login/login.component";
+import {AppRoutingModule} from "./modules/app-routing/app-routing.module";
+import {RegisterComponent} from './component/register/register.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -15,14 +18,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // <-- NgModel lives her
     MessagesComponent,
     InputFieldComponent,
     ChatRoomsComponent,
-    ControlCenterComponent
+    ControlCenterComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
+    BrowserModule,
+    AppRoutingModule,
     FormsModule,
-    NgbModule.forRoot()
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
