@@ -16,12 +16,10 @@ export class AuthenticationService {
   login(username: string, password: string) {
 
     this.isSuccess = true;
-    /*    this.socketService.sendEvent("Login", "template: {\n" +
-          "        password: \"1234\",\n" +
-          "        email: \"phe@test.de\"\n" +
-          "    }");*/
-
-    console.log('here');
+    this.socketService.sendEvent('Login', 'template: {\n' +
+      '        password: "1234",\n' +
+      '        email: "phe@test.de"\n' +
+      '    }');
 
     if (this.isSuccess) {
       return true;

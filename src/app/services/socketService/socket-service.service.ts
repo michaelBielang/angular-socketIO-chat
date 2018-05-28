@@ -6,27 +6,33 @@ import {Observable, Observer, Subject} from 'rxjs/index';
 })
 export class SocketService {
 
-  private socket: WebSocket;
-  private subject: Subject<MessageEvent>;
+  // subject that contains the observable to send messages to the websocket
+  private subject: Subject<any>;
+
+  // messages received from the websocket
+  private _inputMessage: string;
 
   constructor() {
     this.subject = this.createWebsocket();
+    this.subject.subscribe(
+      message => this._inputMessage = message.data
+    );
   }
 
   public createWebsocket(): Subject<MessageEvent> {
     console.log('in createWebSocket');
-    this.socket = new WebSocket('ws://localhost:8080/chatSocket/');
+    const socket = new WebSocket('ws://localhost:8080/chatSocket/');
     const observable = Observable.create(
       (observer: Observer<MessageEvent>) => {
-        this.socket.onmessage = observer.next.bind(observer);
-        this.socket.onclose = observer.complete.bind(observer);
-        return this.socket.close.bind(this.socket);
+        socket.onmessage = observer.next.bind(observer);
+        socket.onclose = observer.complete.bind(observer);
+        return socket.close.bind(socket);
       }
     );
     const observer = {
       next: (data: Object) => {
-        if (this.socket.readyState === WebSocket.OPEN) {
-          this.socket.send(JSON.stringify(data));
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(data));
         }
       }
     };
@@ -41,13 +47,17 @@ export class SocketService {
    * @param data the object itself
    */
   sendEvent(type: string, data: any): this {
-    console.log('in sendEvent');
     const command = {
       type: type,
       value: data
     };
-    this.socket.send(JSON.stringify(command));
+    this.subject.next(command);
     return this;
   }
+
+  get inputMessage(): string {
+    return this._inputMessage;
+  }
+
 
 }

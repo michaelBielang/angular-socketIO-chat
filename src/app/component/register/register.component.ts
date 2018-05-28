@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {SocketService} from '../../services/socketService/socket-service.service';
 
 @Component({
   selector: 'app-register',
@@ -11,13 +12,12 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private socketService: SocketService) {
   }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
@@ -31,12 +31,20 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
+    const userInputInTemplateForm = 'template: {\n' +
+      '        "email": ' + this.registerForm.controls['email'].value + ',\n' +
+      '        "name": ' + this.registerForm.controls['userName'].value + ',\n' +
+      '        "password": ' + this.registerForm.controls['password'].value + '\n' +
+      '    } ';
+
+    this.socketService.sendEvent('Register', userInputInTemplateForm);
+
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
 
-    alert('SUCCESS!! :-)')
+    alert('SUCCESS!! :-)');
   }
 
 }
