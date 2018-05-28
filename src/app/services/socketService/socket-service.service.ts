@@ -14,9 +14,9 @@ export class SocketService {
   }
 
   public createWebsocket(): Subject<MessageEvent> {
-    console.log("in createWebSocket");
+    console.log('in createWebSocket');
     this.socket = new WebSocket('ws://localhost:8080/chatSocket/');
-    let observable = Observable.create(
+    const observable = Observable.create(
       (observer: Observer<MessageEvent>) => {
         this.socket.onmessage = observer.next.bind(observer);
         this.socket.onerror = observer.error.bind(observer);
@@ -24,7 +24,7 @@ export class SocketService {
         return this.socket.close.bind(this.socket);
       }
     );
-    let observer = {
+    const observer = {
       next: (data: Object) => {
         if (this.socket.readyState === WebSocket.OPEN) {
           this.socket.send(JSON.stringify(data));
