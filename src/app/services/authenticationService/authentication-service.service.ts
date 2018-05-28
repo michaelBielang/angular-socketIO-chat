@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {SocketService} from "../socketService/socket-service.service";
 
 
 @Injectable({
@@ -6,30 +7,25 @@ import {Injectable} from '@angular/core';
 })
 export class AuthenticationService {
 
+  private isSuccess: boolean;
 
-  constructor() {
 
+  constructor(private socketService: SocketService) {
   }
 
   login(username: string, password: string) {
-    let connection = new WebSocket('ws://localhost:8080/echo/'), loginData = {
-      name: "phe", password: "1234"
-    }, loginData2 = {
-      name: "u1", password: "1234"
-    };
-    let firstUser = true;
-    connection.onopen = function () {
-      setInterval(function () {
-        let event = {
-          type: "Login",
-          value: username ? loginData : loginData2
-        };
-        firstUser = !firstUser;
-        connection.send(JSON.stringify(event));
-      }, 10000);
-    };
+
+    this.isSuccess = true;
+    /*    this.socketService.sendEvent("Login", "template: {\n" +
+          "        password: \"1234\",\n" +
+          "        email: \"phe@test.de\"\n" +
+          "    }");*/
 
     console.log("here");
+
+    if (this.isSuccess) {
+      return true;
+    }
   }
 
   logout() {

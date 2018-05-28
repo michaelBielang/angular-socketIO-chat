@@ -7,12 +7,15 @@ import {Observable, Observer, Subject} from "rxjs/index";
 export class SocketService {
 
   private socket: WebSocket;
+  private subject: Subject<MessageEvent>;
 
   constructor() {
-    this.socket = new WebSocket('ws://localhost:8080/');
+    this.subject = this.createWebsocket();
   }
 
   public createWebsocket(): Subject<MessageEvent> {
+    console.log("in createWebSocket");
+    this.socket = new WebSocket('ws://localhost:8080/');
     let observable = Observable.create(
       (observer: Observer<MessageEvent>) => {
         this.socket.onmessage = observer.next.bind(observer);
@@ -39,6 +42,7 @@ export class SocketService {
    * @param data the object itself
    */
   sendEvent(type: string, data: any): this {
+    console.log("in sendEvent");
     const command = {
       type: type,
       value: data

@@ -10,6 +10,8 @@ import {AlertService} from "../../services/alertService/alert-service.service";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  isSuccess: boolean;
   loginForm: FormGroup;
   loading = false;
   submitted = false;
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
 
     // reset login status
@@ -45,12 +47,15 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    /*    if (this.loginForm.invalid) {
-          return;
-        }*/
+    if (this.loginForm.invalid) {
+      return;
+    }
 
     this.loading = true;
-    this.authenticationService.login(this.f.username.value, this.f.password.value)
+    if (this.authenticationService.login(this.f.username.value, this.f.password.value)) {
+      console.log("auth true");
+      this.router.navigate(['/chat-rooms']);
+    }
   }
 
 
