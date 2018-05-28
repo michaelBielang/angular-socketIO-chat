@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
 
@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
       '        "password": ' + this.registerForm.controls['password'].value + '\n' +
       '    } ';
 
-    this.socketService.sendEvent('Register', userInputInTemplateForm);
+    this.socketService.sendEvent('RegisterUser', userInputInTemplateForm);
 
     // stop here if form is invalid
     if (this.registerForm.invalid) {

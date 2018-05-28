@@ -13,13 +13,10 @@ export class AuthenticationService {
   constructor(private socketService: SocketService) {
   }
 
-  login(username: string, password: string) {
+  performLoginRequest(command: string) {
 
     this.isSuccess = true;
-    this.socketService.sendEvent('Login', 'template: {\n' +
-      '        password: "1234",\n' +
-      '        email: "phe@test.de"\n' +
-      '    }');
+    this.socketService.sendEvent('Login', command);
 
     if (this.isSuccess) {
       return true;

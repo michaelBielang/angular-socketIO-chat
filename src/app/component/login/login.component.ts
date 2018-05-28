@@ -28,10 +28,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(4)]]
     });
 
-    // reset login status
+    // reset performLoginRequest status
     this.authenticationService.logout();
 
     // get return url from route parameters or default to '/'
@@ -51,9 +51,13 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    const userInputInTemplateForm = 'template: {\n' +
+      '        "email": ' + this.loginForm.controls['username'].value + ',\n' +
+      '        "password": ' + this.loginForm.controls['password'].value + '\n' +
+      '    } ';
+
     this.loading = true;
-    if (this.authenticationService.login(this.f.username.value, this.f.password.value)) {
-      console.log('auth true');
+    if (this.authenticationService.performLoginRequest(userInputInTemplateForm)) {
       this.router.navigate(['/chat-rooms']);
     }
   }
