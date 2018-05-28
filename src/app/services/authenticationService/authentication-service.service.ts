@@ -13,7 +13,7 @@ export class AuthenticationService {
   constructor(private socketService: SocketService) {
   }
 
-  performLoginRequest(command: string) {
+  performLoginRequest(command: any) {
 
     this.isSuccess = true;
     this.socketService.sendEvent('Login', command);

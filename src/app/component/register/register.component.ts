@@ -31,12 +31,11 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    const userInputInTemplateForm = 'template: {\n' +
-      '        "email": ' + this.registerForm.controls['email'].value + ',\n' +
-      '        "name": ' + this.registerForm.controls['userName'].value + ',\n' +
-      '        "password": ' + this.registerForm.controls['password'].value + '\n' +
-      '    } ';
-
+    const userInputInTemplateForm = {
+      email: this.registerForm.controls['email'].value,
+      name: this.registerForm.controls['userName'].value,
+      password: this.registerForm.controls['password'].value,
+    };
     this.socketService.sendEvent('RegisterUser', userInputInTemplateForm);
 
     // stop here if form is invalid

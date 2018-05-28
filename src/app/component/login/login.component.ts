@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(4)]]
     });
 
@@ -51,10 +51,10 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const userInputInTemplateForm = 'template: {\n' +
-      '        "email": ' + this.loginForm.controls['username'].value + ',\n' +
-      '        "password": ' + this.loginForm.controls['password'].value + '\n' +
-      '    } ';
+    const userInputInTemplateForm = {
+      password: this.loginForm.controls['password'].value,
+      email: this.loginForm.controls['email'].value,
+    };
 
     this.loading = true;
     if (this.authenticationService.performLoginRequest(userInputInTemplateForm)) {
