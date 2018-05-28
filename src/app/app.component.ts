@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
 
@@ -32,6 +32,6 @@ export class AppComponent {
       return;
     }
 
-    alert('SUCCESS!! :-)')
+    alert('SUCCESS!! :-)');
   }
 }

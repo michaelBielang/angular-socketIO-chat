@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {SocketService} from "../socketService/socket-service.service";
+import {SocketService} from '../socketService/socket-service.service';
 
 
 @Injectable({
@@ -21,7 +21,7 @@ export class AuthenticationService {
           "        email: \"phe@test.de\"\n" +
           "    }");*/
 
-    console.log("here");
+    console.log('here');
 
     if (this.isSuccess) {
       return true;

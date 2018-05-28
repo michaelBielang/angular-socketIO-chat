@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, Observer, Subject} from "rxjs/index";
+import {Observable, Observer, Subject} from 'rxjs/index';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,6 @@ export class SocketService {
     const observable = Observable.create(
       (observer: Observer<MessageEvent>) => {
         this.socket.onmessage = observer.next.bind(observer);
-        this.socket.onerror = observer.error.bind(observer);
         this.socket.onclose = observer.complete.bind(observer);
         return this.socket.close.bind(this.socket);
       }
@@ -42,7 +41,7 @@ export class SocketService {
    * @param data the object itself
    */
   sendEvent(type: string, data: any): this {
-    console.log("in sendEvent");
+    console.log('in sendEvent');
     const command = {
       type: type,
       value: data

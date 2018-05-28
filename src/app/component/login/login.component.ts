@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationService} from "../../services/authenticationService/authentication-service.service";
-import {AlertService} from "../../services/alertService/alert-service.service";
+import {AuthenticationService} from '../../services/authenticationService/authentication-service.service';
+import {AlertService} from '../../services/alertService/alert-service.service';
 
 @Component({
   selector: 'app-login',
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
     if (this.authenticationService.login(this.f.username.value, this.f.password.value)) {
-      console.log("auth true");
+      console.log('auth true');
       this.router.navigate(['/chat-rooms']);
     }
   }
