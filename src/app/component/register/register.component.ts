@@ -42,6 +42,7 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+    console.log(this.socketService.inputMessage);
 
     alert('SUCCESS!! :-)');
   }
