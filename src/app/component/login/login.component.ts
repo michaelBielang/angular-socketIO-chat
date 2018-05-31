@@ -10,13 +10,13 @@ import {AlertService} from '../../services/alertService/alert-service.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  isSuccess: boolean;
   loginForm: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
+  private _userEmail: string;
 
+  // alertService optional, if time, implement, otherwise, kick.
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -58,9 +58,13 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
     if (this.authenticationService.performLoginRequest(userInputInTemplateForm)) {
+      this._userEmail = this.loginForm.controls['email'].value;
       this.router.navigate(['/chat-rooms']);
     }
   }
 
+  get userEmail(): string {
+    return this._userEmail;
+  }
 
 }

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Observable, Observer, Subject} from 'rxjs/index';
+import {BehaviorSubject, Observable, Observer, Subject} from 'rxjs/index';
+import {filter} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,34 +11,44 @@ export class SocketService {
   private subject: Subject<any>;
 
   // messages received from the websocket
-  private _inputMessage: string;
+  private _inputMessage: BehaviorSubject<Object> = new BehaviorSubject<Object>({});
+
+  private socket: WebSocket;
 
   constructor() {
-    this.subject = this.createWebsocket();
+    this.createWebsocket();
+  }
+
+  private createWebsocket() {
+    console.log('in createWebSocket');
+    this.socket = new WebSocket('ws://localhost:8080/chatSocket/');
+    const observable = Observable.create(
+      (observer: Observer<MessageEvent>) => {
+        this.socket.onmessage = observer.next.bind(observer);
+        this.socket.onclose = observer.complete.bind(observer);
+        return this.socket.close.bind(this.socket);
+      }
+    );
+    const observer = {
+      next: (data: Object) => {
+        if (this.socket.readyState === WebSocket.OPEN) {
+          this.socket.send(JSON.stringify(data));
+        }
+      }
+    };
+    this.subject = Subject.create(observer, observable);
     this.subject.subscribe(
       message => this._inputMessage = message.data
     );
   }
 
-  public createWebsocket(): Subject<MessageEvent> {
-    console.log('in createWebSocket');
-    const socket = new WebSocket('ws://localhost:8080/chatSocket/');
-    const observable = Observable.create(
-      (observer: Observer<MessageEvent>) => {
-        socket.onmessage = observer.next.bind(observer);
-        socket.onclose = observer.complete.bind(observer);
-        return socket.close.bind(socket);
-      }
-    );
-    const observer = {
-      next: (data: Object) => {
-        if (socket.readyState === WebSocket.OPEN) {
-          socket.send(JSON.stringify(data));
-        }
-      }
-    };
-    return Subject.create(observer, observable);
+  disconnect() {
+    if (this.socket.OPEN) {
+      this.socket.close();
+      this.socket = undefined;
+    }
   }
+
 
   /**
    * Sends an event object to the sever over the socket. Fails, if
@@ -47,6 +58,9 @@ export class SocketService {
    * @param data the object itself
    */
   sendEvent(type: string, data: any): this {
+    if (this.socket === undefined) {
+      this.createWebsocket();
+    }
     const command = {
       type: type,
       value: data
@@ -55,8 +69,8 @@ export class SocketService {
     return this;
   }
 
-  get inputMessage(): string {
-    return this._inputMessage;
+  get inputMessage(): Observable<Object> {
+    return this._inputMessage.asObservable().pipe(filter((event: Event) => event != null));
   }
 
 
