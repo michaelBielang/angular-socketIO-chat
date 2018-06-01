@@ -9,8 +9,12 @@ import {SocketService} from '../../services/socketService/socket-service.service
 })
 export class RegisterComponent implements OnInit {
 
+  private readonly _messages: MessageEvent[] = [];
+
   registerForm: FormGroup;
   submitted = false;
+  // messages received from the websocket
+  // private _receiveEvents: BehaviorSubject<Object> = new BehaviorSubject<Object>(this._messages);
 
   constructor(private formBuilder: FormBuilder, private socketService: SocketService) {
   }
@@ -19,7 +23,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       userName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(4)]]
+      password: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -36,13 +40,18 @@ export class RegisterComponent implements OnInit {
       name: this.registerForm.controls['userName'].value,
       password: this.registerForm.controls['password'].value,
     };
+
+    this.socketService.receiveEvents('UserRegistered').subscribe((message: MessageEvent) => {
+      console.log('message: ' + message.data);
+    });
+
     this.socketService.sendEvent('RegisterUser', userInputInTemplateForm);
 
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
+
     alert('SUCCESS!! :-)');
   }
-
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Observer, Subject} from 'rxjs/index';
+import {Observable, Observer, Subject} from 'rxjs/index';
 import {filter} from 'rxjs/operators';
 
 @Injectable({
@@ -8,10 +8,7 @@ import {filter} from 'rxjs/operators';
 export class SocketService {
 
   // subject that contains the observable to send messages to the websocket
-  private subject: Subject<any>;
-
-  // messages received from the websocket
-  private _inputMessage: BehaviorSubject<Object> = new BehaviorSubject<Object>({});
+  private _subject: Subject<any>;
 
   private socket: WebSocket;
 
@@ -22,6 +19,7 @@ export class SocketService {
   private createWebsocket() {
     console.log('in createWebSocket');
     this.socket = new WebSocket('ws://localhost:8080/chatSocket/');
+    // receive data from websocket
     const observable = Observable.create(
       (observer: Observer<MessageEvent>) => {
         this.socket.onmessage = observer.next.bind(observer);
@@ -29,6 +27,7 @@ export class SocketService {
         return this.socket.close.bind(this.socket);
       }
     );
+    // send data to websocket
     const observer = {
       next: (data: Object) => {
         if (this.socket.readyState === WebSocket.OPEN) {
@@ -36,14 +35,12 @@ export class SocketService {
         }
       }
     };
-    this.subject = Subject.create(observer, observable);
-    this.subject.subscribe(
-      message => this._inputMessage = message.data
-    );
+    this._subject = Subject.create(observer, observable);
   }
 
   disconnect() {
     if (this.socket.OPEN) {
+      this._subject.unsubscribe();
       this.socket.close();
       this.socket = undefined;
     }
@@ -65,13 +62,17 @@ export class SocketService {
       type: type,
       value: data
     };
-    this.subject.next(command);
+    this._subject.next(command);
     return this;
   }
 
-  get inputMessage(): Observable<Object> {
-    return this._inputMessage.asObservable().pipe(filter((event: Event) => event != null));
+  /**
+   * TODO: Implement a paramemter that allows this method to return an Observable
+   * TODO: with a filter for relevant events for the calling functions
+   * @returns {Observable<Object>}
+   */
+  receiveEvents(relevantEvents): Observable<Object> {
+    return this._subject.asObservable().pipe(filter((event: Event) => event != null));
   }
-
 
 }

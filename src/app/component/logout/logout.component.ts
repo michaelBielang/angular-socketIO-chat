@@ -17,7 +17,7 @@ export class LogoutComponent implements OnInit {
   onSubmit() {
     const userInputInTemplateForm = {};
     this.socketService.sendEvent('Logout', userInputInTemplateForm);
-    console.log(this.socketService.inputMessage);
+    console.log(this.socketService.receiveEvents);
 
     alert('You are logged out');
   }
