@@ -24,11 +24,36 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   get f() {
-    return this.registerForm.controls;
+    return this.newPasswordForm.controls;
   }
 
   onSubmit() {
     console.log('Now is when validation should take place');
   }
+
+  onSubmit() {
+    this.submitted = true;
+
+    const userInputInTemplateForm = {
+      oldPassword: this.newPasswordForm.controls['oldPassword'].value,
+      newPassword: this.newPasswordForm.controls['newPassword'].value,
+      newPasswordConfirm: this.newPasswordForm.controls['newPasswordConfirm'].value,
+    };
+
+    // first, make sure passwords match
+
+    // then, try to log in using oldPassword
+
+      // if successful, go back to login with success message
+      // else, display error
+
+    // stop here if form is invalid
+    if (this.newPasswordForm.invalid) {
+      return;
+    }
+    alert('SUCCESS!! :-)');
+  }
+}
+
 
 }
