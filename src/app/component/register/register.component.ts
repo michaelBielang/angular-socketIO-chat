@@ -51,7 +51,6 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-
     alert('SUCCESS!! :-)');
   }
 }

@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(1)]]
     });
 
@@ -54,7 +54,9 @@ export class LoginComponent implements OnInit {
     };
 
     this.socketService.receiveEvents('LoggedIn').subscribe((message: MessageEvent) => {
-      console.log('message: ' + message.data);
+      const obj: BackendResponse = JSON.parse(message.data);
+      console.log(obj.type);
+      console.log((obj.value));
     });
 
     this.loading = true;
