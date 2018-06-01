@@ -20,7 +20,6 @@ export class MessageService {
     this._messages.push(message);
     // this._messages = list;
     // this.subj.next(list);
-
   }
 
   getMessages(): string[] {
