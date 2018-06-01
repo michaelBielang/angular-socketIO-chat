@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: 'logout', component: LogoutComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'chat-rooms', component: ChatRoomsComponent},
-  {path: 'change-background', component: ChangePasswordComponent}
+  {path: 'change-password', component: ChangePasswordComponent}
 ];
 
 @NgModule({
