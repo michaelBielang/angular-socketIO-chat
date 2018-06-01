@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {SocketService} from '../../services/socketService/socket-service.service';
+
 
 @Component({
   selector: 'app-change-password',
@@ -7,9 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChangePasswordComponent implements OnInit {
 
-  constructor() { }
+  newPasswordForm: FormGroup;
+
+
+  constructor(private formBuilder: FormBuilder, private socketService: SocketService) { }
 
   ngOnInit() {
+    this.newPasswordForm = this.formBuilder.group({
+      oldPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      newPasswordConfirm: ['', [Validators.required]]
+    });
+  }
+
+  get f() {
+    return this.registerForm.controls;
+  }
+
+  onSubmit() {
+    console.log('Now is when validation should take place');
   }
 
 }
