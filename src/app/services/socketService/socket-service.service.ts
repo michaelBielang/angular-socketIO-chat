@@ -67,8 +67,6 @@ export class SocketService {
   }
 
   /**
-   * TODO: Implement a paramemter that allows this method to return an Observable
-   * TODO: with a filter for relevant events for the calling functions
    * @returns {Observable<Object>}
    */
   receiveEvents(relevantEvent): Observable<Object> {
@@ -78,6 +76,15 @@ export class SocketService {
         const obj: BackendResponse = JSON.parse(event.data);
         return obj.type === relevantEvent;
       }));
+  }
+
+  /**
+   * Helper method to find the returning event name
+   * @returns {Observable<Object>}
+   */
+  receiveEventString(): Observable<Object> {
+    return this._subject.asObservable()
+      .pipe(filter((event: Event) => event != null));
   }
 
 }
