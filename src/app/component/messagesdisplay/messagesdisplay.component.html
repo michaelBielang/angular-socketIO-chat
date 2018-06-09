@@ -1,0 +1,6 @@
+<p>Message Component</p>
+<ul class="message">
+  <li *ngFor="let message of messages">
+    <span class="badge">{{message.date}}</span><span class="badge">{{message.author}}</span><span class="badge">{{message.text}}</span>
+  </li>
+</ul>
