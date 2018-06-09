@@ -11,6 +11,7 @@ import {RegisterComponent} from './component/register/register.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {LogoutComponent} from './component/logout/logout.component';
+import {MessagesDisplayAndInputComponent} from './component/messages-display-and-input/messages-display-and-input.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {LogoutComponent} from './component/logout/logout.component';
     LoginComponent,
     RegisterComponent,
     LogoutComponent,
+    MessagesDisplayAndInputComponent,
   ],
   imports: [
     BrowserModule,
