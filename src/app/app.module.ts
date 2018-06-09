@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {MessagesComponent} from './component/messages/messages.component';
+import {MessagesDisplayComponent} from './component/messagesdisplay/messagesdisplay.component';
 import {InputFieldComponent} from './component/input-field/input-field.component';
 import {ChatRoomsComponent} from './component/chat-rooms/chat-rooms.component';
 import {LoginComponent} from './component/login/login.component';
@@ -15,7 +15,7 @@ import {LogoutComponent} from './component/logout/logout.component';
 @NgModule({
   declarations: [
     AppComponent,
-    MessagesComponent,
+    MessagesDisplayComponent,
     InputFieldComponent,
     ChatRoomsComponent,
     LoginComponent,
