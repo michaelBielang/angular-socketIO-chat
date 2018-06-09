@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationService} from '../../services/authenticationService/authentication-service.service';
 import {AlertService} from '../../services/alertService/alert-service.service';
+import {SocketService} from '../../services/socketService/socket-service.service';
 
 @Component({
   selector: 'app-login',
@@ -10,29 +10,26 @@ import {AlertService} from '../../services/alertService/alert-service.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  isSuccess: boolean;
   loginForm: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
+  private _userEmail: string;
 
+  // alertService optional, if time, implement, otherwise, kick.
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService,
+    private socketService: SocketService,
     private alertService: AlertService) {
   }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(4)]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(1)]]
     });
-
-    // reset performLoginRequest status
-    this.authenticationService.logout();
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -56,11 +53,21 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.controls['email'].value,
     };
 
+    this.socketService.receiveEvents('LoggedIn').subscribe((message: MessageEvent) => {
+      const obj: BackendResponse = JSON.parse(message.data);
+      console.log(obj.type);
+      console.log((obj.value));
+    });
+
     this.loading = true;
-    if (this.authenticationService.performLoginRequest(userInputInTemplateForm)) {
-      this.router.navigate(['/chat-rooms']);
-    }
+
+    this.socketService.sendEvent('Login', userInputInTemplateForm);
+    this._userEmail = this.loginForm.controls['email'].value;
+    this.router.navigate(['/chat-rooms']);
   }
 
+  get userEmail(): string {
+    return this._userEmail;
+  }
 
 }
