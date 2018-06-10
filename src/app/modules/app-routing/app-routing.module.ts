@@ -5,7 +5,8 @@ import {LoginComponent} from '../../component/login/login.component';
 import {RegisterComponent} from '../../component/register/register.component';
 import {ChatRoomsComponent} from '../../component/chat-rooms/chat-rooms.component';
 import {LogoutComponent} from '../../component/logout/logout.component';
-import {MessagesDisplayComponent} from "../../component/messagesdisplay/messagesdisplay.component";
+import {SettingsComponent} from '../../component/settings/settings.component';
+import {MessagesDisplayComponent} from '../../component/messagesdisplay/messagesdisplay.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'logout', component: LogoutComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'chat-rooms', component: ChatRoomsComponent},
+  {path: 'settings', component: SettingsComponent},
 ];
 
 @NgModule({
