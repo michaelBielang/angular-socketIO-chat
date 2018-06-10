@@ -1,9 +1,8 @@
-<h3>Input-Field</h3>
-<p>
+<div>
   <label>
     <input #newInput
            (keyup.enter)="sendMessage(newInput.value)">
   </label>
 
   <button (click)="sendMessage(newInput.value)">Send</button>
-</p>
+</div>

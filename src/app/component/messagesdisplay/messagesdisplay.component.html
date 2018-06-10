@@ -1,0 +1,11 @@
+<div *ngFor="let messageSet of messageSets">
+  <ul>
+    <div>
+      <span class="badge">{{messageSet.author}}</span>
+    </div>
+    <li *ngFor="let message of messageSet.messages">
+      <span class="badge">{{message.date.getHours() + ":" + message.date.getMinutes()}}</span><span class="badge">{{message.text}}</span>
+    </li>
+  </ul>
+</div>
+
