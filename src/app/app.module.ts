@@ -11,8 +11,8 @@ import {RegisterComponent} from './component/register/register.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {LogoutComponent} from './component/logout/logout.component';
-import { RoomListComponent } from './component/room-list/room-list.component';
-import { SettingsComponent } from './component/settings/settings.component';
+import {RoomListComponent} from './component/room-list/room-list.component';
+import {SettingsComponent} from './component/settings/settings.component';
 
 @NgModule({
   declarations: [

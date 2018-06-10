@@ -54,7 +54,7 @@ export class SocketService {
    * @param type The type of the event object to send
    * @param data the object itself
    */
-  sendEvent(type: string, data: any): this {
+  sendEvent(type: string, data: any){
     if (this.socket === undefined) {
       this.createWebsocket();
     }
@@ -63,7 +63,6 @@ export class SocketService {
       value: data
     };
     this._subject.next(command);
-    return this;
   }
 
   /**
