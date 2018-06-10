@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, Observer, Subject} from 'rxjs/index';
 import {filter} from 'rxjs/operators';
+import {BackendResponse} from "../../model/BackendResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,7 @@ export class SocketService {
    * @param type The type of the event object to send
    * @param data the object itself
    */
-  sendEvent(type: string, data: any){
+  sendEvent(type: string, data: any) {
     if (this.socket === undefined) {
       this.createWebsocket();
     }
