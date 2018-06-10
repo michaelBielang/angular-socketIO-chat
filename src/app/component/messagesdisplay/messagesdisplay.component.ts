@@ -4,7 +4,7 @@ import {SocketService} from '../../services/socketService/socket-service.service
 import {Message} from '../../model/Message';
 
 @Component({
-  selector: 'app-messages',
+  selector: 'messages-display',
   templateUrl: './messagesdisplay.component.html',
   styleUrls: ['./messagesdisplay.component.css']
 })
