@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MessageService} from "../../services/messageService/message.service";
+import {SocketService} from '../../services/socketService/socket-service.service';
 
 @Component({
   selector: 'app-input-field',
@@ -9,16 +9,25 @@ import {MessageService} from "../../services/messageService/message.service";
 export class InputFieldComponent implements OnInit {
 
 
-  constructor(public messageService: MessageService) {
+  constructor(public socketService: SocketService) {
   }
 
   public sendMessage(newInput: string) {
     if (newInput) {
-      this.messageService.add(newInput);
+      // this.messageService.add(newInput);
+      this.socketService.sendEvent('SendMessageToRoom', ({
+        'roomName': 'test',
+        'message': newInput
+      }));
+
     }
   }
 
   ngOnInit() {
+    console.log('automatically joining room general');
+    this.socketService.sendEvent('JoinRoom', ({
+      'roomName': 'general'
+    }));
   }
 
 }
