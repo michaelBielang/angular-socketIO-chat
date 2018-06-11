@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, Observer, Subject} from 'rxjs/index';
 import {filter} from 'rxjs/operators';
+import {BackendResponse} from '../../model/BackendResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,6 @@ export class SocketService {
   }
 
   private createWebsocket() {
-    console.log('in createWebSocket');
     this.socket = new WebSocket('ws://141.82.173.168:8080/chatSocket/');
     // receive data from websocket
     const observable = Observable.create(
@@ -54,7 +54,7 @@ export class SocketService {
    * @param type The type of the event object to send
    * @param data the object itself
    */
-  sendEvent(type: string, data: any): this {
+  sendEvent(type: string, data: any) {
     if (this.socket === undefined) {
       this.createWebsocket();
     }
@@ -63,7 +63,6 @@ export class SocketService {
       value: data
     };
     this._subject.next(command);
-    return this;
   }
 
   /**
