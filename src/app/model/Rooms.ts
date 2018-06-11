@@ -1,13 +1,15 @@
 import {User} from './User';
+import {MessageSet} from "./MessageSet";
+import {Message} from "./Message";
 
 export class Rooms {
 
   constructor() {
-    numberUnreadMessages = 0;
+    this.numberUnreadMessages = 0;
   }
 
   private _userList: User[];
-  private _messageSets: MessageSet[];
+  private messageSets: MessageSet[];
   private _OPList: Map<String, User>;
   private _VoiceList: Map<String, User>;
   private lastAuthor: string;
@@ -41,7 +43,7 @@ export class Rooms {
   }
 
   get roomMessages(): String[] {
-    return this._roomMessages;
+    return this.roomMessages;
   }
 
   get OPList(): Map<String, User> {
