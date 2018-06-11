@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, Observer, Subject} from 'rxjs/index';
 import {filter} from 'rxjs/operators';
-import {BackendResponse} from "../../model/BackendResponse";
+import {BackendResponse} from '../../model/BackendResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,6 @@ export class SocketService {
   }
 
   private createWebsocket() {
-    console.log('in createWebSocket');
     this.socket = new WebSocket('ws://141.82.173.168:8080/chatSocket/');
     // receive data from websocket
     const observable = Observable.create(

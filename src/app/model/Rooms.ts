@@ -15,7 +15,6 @@ export class Rooms {
     return true;
   }
 
-
   get userList(): User[] {
     return this._userList;
   }
