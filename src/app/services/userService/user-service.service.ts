@@ -12,6 +12,13 @@ export class UserServiceService {
 
   constructor() {
   }
+  joinRoom(roomName: string): void {
+    this._roomMap.set(roomName, new Rooms());
+  }
+  leaveRoom(roomName: string): void {
+    this._roomMap.delete(roomName);
+  }
+
 
   get roomMap(): Map<String, Rooms> {
     return this._roomMap;
