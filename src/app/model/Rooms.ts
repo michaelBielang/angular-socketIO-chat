@@ -42,8 +42,12 @@ export class Rooms {
     return this._userList;
   }
 
-  get roomMessages(): String[] {
-    return this.roomMessages;
+  get messageSets(): String[] {
+    return this.messageSets;
+  }
+
+  get numberUnreadMessages(): number {
+    return this.numberUnreadMessages;
   }
 
   get OPList(): Map<String, User> {
