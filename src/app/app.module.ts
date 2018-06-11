@@ -29,8 +29,6 @@ import {SettingsComponent} from './component/settings/settings.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserModule,
-    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
