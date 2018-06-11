@@ -2,6 +2,7 @@ export class Message {
 
   constructor(private _text: string, private _author: string, private _date: Date) {
   }
+  // todo: add read or unread property; display accordingly (e.g. in bold for unread)
 
   // function
   get text(): string {
