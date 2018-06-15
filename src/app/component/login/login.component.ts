@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
-  private _userEmail: string;
 
   // alertService optional, if time, implement, otherwise, kick.
   constructor(
@@ -54,6 +53,7 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.controls['email'].value,
     };
 
+    // TODO (optional: AlertService)
     this.socketService.receiveEvents('LoggedIn').subscribe((message: MessageEvent) => {
       const obj: BackendResponse = JSON.parse(message.data);
       console.log(obj.type);
@@ -63,12 +63,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
 
     this.socketService.sendEvent('Login', userInputInTemplateForm);
-    this._userEmail = this.loginForm.controls['email'].value;
     this.router.navigate(['/chat-rooms']);
-  }
-
-  get userEmail(): string {
-    return this._userEmail;
   }
 
 }
