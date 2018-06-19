@@ -8,7 +8,7 @@
 <script>
   const connection = new WebSocket('ws://localhost:8080/chatSocket/'),
     loginData = {
-      email: 'phe@test.de', password: '1234'
+      email: 'q@q.de', password: '1234'
     }
 
   connection.onopen = function () {
@@ -21,7 +21,7 @@
 
     event = {
       type: 'JoinRoom',
-      value: {'roomName': 'test'}
+      value: {'roomName': 'test2'}
     }
     connection.send(JSON.stringify(event))
   }

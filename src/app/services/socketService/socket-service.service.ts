@@ -18,7 +18,7 @@ export class SocketService {
   }
 
   private createWebsocket() {
-    this.socket = new WebSocket('ws://141.82.173.168:8080/chatSocket/');
+    this.socket = new WebSocket('ws://localhost:8080/chatSocket/');
     // receive data from websocket
     const observable = Observable.create(
       (observer: Observer<MessageEvent>) => {
