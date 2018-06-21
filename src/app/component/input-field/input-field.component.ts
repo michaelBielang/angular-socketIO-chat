@@ -23,6 +23,8 @@ export class InputFieldComponent implements OnInit {
         'roomName': this.defaultRoom,
         'message': newInput
       }));
+      // add the message to the userService's roomMap's MessageSet via SOME addMessage function??
+      // this.userService.roomMap.get(this.userService.activeRoom).
     }
   }
 
@@ -69,10 +71,7 @@ export class InputFieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('automatically joining room general');
-    this.socketService.sendEvent('JoinRoom', {
-      'roomName': this.defaultRoom
-    });
+
   }
 
 }

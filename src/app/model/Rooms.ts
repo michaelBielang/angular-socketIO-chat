@@ -19,10 +19,15 @@ export class Rooms {
   public lastAuthorChanges: BehaviorSubject<string>;
 
   constructor() {
-    this._numberUnreadMessages = 0;
     this.userListChanges = new BehaviorSubject([]);
-    this.messageSetsChanges = new BehaviorSubject([]);
+    this.messageSetsChanges = new BehaviorSubject(
+      [(new MessageSet(
+        [new Message('Welcome!', 'System', new Date())
+        ]))
+      ]);
+    this.messageSets = [];
     this.numberUnreadMessagesChanges = new BehaviorSubject(0);
+    this.numberUnreadMessages = 0;
     this.OPListChanges = new BehaviorSubject(new Map<String, User>());
     this.VoiceListChanges = new BehaviorSubject(new Map<String, User>());
     this.lastAuthorChanges = new BehaviorSubject('nobody');

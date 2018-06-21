@@ -13,18 +13,17 @@ import {BackendResponse} from '../../model/BackendResponse';
 export class MessagesDisplayComponent implements OnInit {
 
   constructor(private userService: UserServiceService) {
-    this.userService.joinRoom('general');
 
-    this.userService.activeRoom = 'general';
-    console.log('currently active room:', this.userService.activeRoom);
-    this.userService.roomMap.get(this.userService.activeRoom).messageSetsChanges.subscribe(
-      (next) => console.log('new msgSet:', next)
-    );
   }
 
   ngOnInit() {
     console.log('messagedisplay oninit');
     // this.getMessages();
+    console.log('activeRoom:', this.userService.activeRoom);
+    console.log('roomMap:', this.userService.roomMap);
+    this.userService.roomMap.get(this.userService.activeRoom).messageSetsChanges.subscribe(
+      (next) => console.log('new msgSet:', next)
+    );
   }
 
 }

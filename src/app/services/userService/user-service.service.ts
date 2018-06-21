@@ -14,22 +14,13 @@ export class UserServiceService {
   private _roomMap: Map<String, Rooms> = new Map<String, Rooms>();
   private _activeRoom: string;
 
-  constructor(public socketService: SocketService) {
-    console.log('userService constructed :)');
-    // subscribe to messages
-    this.socketService.receiveEvents('MessageSendToRoom').subscribe((message: MessageEvent) => {
-      console.log('in userService; got MessageSendToRoom message');
-      const obj: BackendResponse = JSON.parse(message.data);
-      // add the new message to the respective room
-      this._roomMap.get(obj.value.roomName).addMessage(
-        // the message including message text, email and datetime of arrival
-        new Message(obj.value.message, obj.value.email, new Date()),
-        // boolean whether or not the message is actively being read
-        obj.value.roomName === this.activeRoom);
-    });
+  constructor(private socketService: SocketService) {
   }
   joinRoom(roomName: string): void {
     this._roomMap.set(roomName, new Rooms());
+    this.socketService.sendEvent('JoinRoom', {
+      'roomName': 'general'
+    });
     this.showRoom(roomName);
   }
   leaveRoom(roomName: string): void {
