@@ -31,7 +31,7 @@ export class Rooms {
   }
 
   hasOP(roomName: String): boolean {
-    return true;
+    return this._OPList.has(roomName);
   }
 
   hasVoice(roomName: String): boolean {

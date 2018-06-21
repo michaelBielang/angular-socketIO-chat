@@ -3,12 +3,14 @@ import {Rooms} from '../../model/Rooms';
 import {BackendResponse} from '../../model/BackendResponse';
 import {Message} from '../../model/Message';
 import {SocketService} from '../socketService/socket-service.service';
+import {User} from '../../model/User';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserServiceService {
 
+  private _currentUser: User;
   private _roomMap: Map<String, Rooms> = new Map<String, Rooms>();
   private activeRoom: string;
 
@@ -43,4 +45,13 @@ export class UserServiceService {
   get roomMap(): Map<String, Rooms> {
     return this._roomMap;
   }
+
+  set currentUser(currentUser: User) {
+    this._currentUser = currentUser;
+  }
+
+  get currentUser(): User {
+    return this._currentUser;
+  }
+
 }
