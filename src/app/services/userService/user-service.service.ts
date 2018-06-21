@@ -12,11 +12,13 @@ export class UserServiceService {
 
   private _currentUser: User;
   private _roomMap: Map<String, Rooms> = new Map<String, Rooms>();
-  private activeRoom: string;
+  private _activeRoom: string;
 
   constructor(public socketService: SocketService) {
+    console.log('userService constructed :)');
     // subscribe to messages
     this.socketService.receiveEvents('MessageSendToRoom').subscribe((message: MessageEvent) => {
+      console.log('in userService; got MessageSendToRoom message');
       const obj: BackendResponse = JSON.parse(message.data);
       // add the new message to the respective room
       this._roomMap.get(obj.value.roomName).addMessage(
@@ -40,6 +42,13 @@ export class UserServiceService {
   }
   hideRoom(roomName: string): void {
     // do... something?
+  }
+
+  get activeRoom(): string {
+    return this._activeRoom;
+  }
+  set activeRoom(room: string) {
+    this._activeRoom = room;
   }
 
   get roomMap(): Map<String, Rooms> {

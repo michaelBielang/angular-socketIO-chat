@@ -69,10 +69,13 @@ export class SocketService {
    * @returns {Observable<Object>}
    */
   receiveEvents(relevantEvent): Observable<Object> {
+    console.log('subscribed to ', relevantEvent);
     return this._subject.asObservable()
       .pipe(filter((event: Event) => event != null))
       .pipe(filter((event: MessageEvent) => {
+        console.log('frontend received an event:', event);
         const obj: BackendResponse = JSON.parse(event.data);
+        console.log('receiveEvents second filter, compare:', obj.type, relevantEvent);
         return obj.type === relevantEvent;
       }));
   }
