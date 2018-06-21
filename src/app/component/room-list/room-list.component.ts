@@ -17,4 +17,7 @@ export class RoomListComponent implements OnInit {
   ngOnInit() {
   }
 
+  joinRoom(room: string): void {
+    this.userService.joinRoom(room);
+  }
 }
