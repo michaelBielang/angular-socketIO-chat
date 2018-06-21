@@ -24,11 +24,12 @@ export class UserServiceService {
     return this._roomMap;
   }
 
-  set currentUser(value: User) {
-    this._currentUser = value;
+  set currentUser(currentUser: User) {
+    this._currentUser = currentUser;
   }
 
   get currentUser(): User {
     return this._currentUser;
   }
+
 }

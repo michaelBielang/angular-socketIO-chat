@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AlertService} from '../../services/alertService/alert-service.service';
 import {SocketService} from '../../services/socketService/socket-service.service';
 import {BackendResponse} from '../../model/BackendResponse';
+import {UserServiceService} from "../../services/userService/user-service.service";
+import {User} from "../../model/User";
 
 @Component({
   selector: 'app-login',
@@ -22,7 +24,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private socketService: SocketService,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private userService: UserServiceService) {
   }
 
   ngOnInit() {
@@ -48,14 +51,18 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    const email: String = this.loginForm.controls['email'].value;
+    const currentUser: User = new User(email);
+
     const userInputInTemplateForm = {
       password: this.loginForm.controls['password'].value,
-      email: this.loginForm.controls['email'].value,
+      email: email,
     };
 
     // TODO (optional: AlertService)
     this.socketService.receiveEvents('LoggedIn').subscribe((message: MessageEvent) => {
       const obj: BackendResponse = JSON.parse(message.data);
+      this.userService.currentUser = currentUser;
       console.log(obj.type);
       console.log((obj.value));
     });
