@@ -8,11 +8,11 @@ export class Rooms {
   private _VoiceList: Map<String, User>;
 
   hasOP(roomName: String): boolean {
-    return true;
+    return this._OPList.has(roomName);
   }
 
   hasVoice(roomName: String): boolean {
-    return true;
+    return this._VoiceList.has(roomName);
   }
 
   get userList(): User[] {

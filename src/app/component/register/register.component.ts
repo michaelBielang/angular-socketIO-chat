@@ -41,6 +41,7 @@ export class RegisterComponent implements OnInit {
       password: this.registerForm.controls['password'].value,
     };
 
+    // TODO check if user is already registered (optional: AlertService)
     this.socketService.receiveEvents('UserRegistered').subscribe((message: MessageEvent) => {
       console.log('message: ' + message.data);
     });
