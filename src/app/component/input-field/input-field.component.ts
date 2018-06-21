@@ -26,6 +26,12 @@ export class InputFieldComponent implements OnInit {
     }
   }
 
+
+  /**
+   * intercepts if the user sends an invite request to the chat
+   * @param {string} userInput
+   * @returns {boolean} true = invited, false, not
+   */
   public userInvited(userInput: string): boolean {
     const regeg = '/invite ';
 
