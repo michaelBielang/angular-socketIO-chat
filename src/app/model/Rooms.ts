@@ -5,28 +5,28 @@ import {Message} from "./Message";
 export class Rooms {
 
   constructor() {
-    this.numberUnreadMessages = 0;
+    this._numberUnreadMessages = 0;
   }
 
   private _userList: User[];
-  private messageSets: MessageSet[];
+  private _messageSets: MessageSet[];
+  private _numberUnreadMessages: number;
   private _OPList: Map<String, User>;
   private _VoiceList: Map<String, User>;
   private lastAuthor: string;
-  private numberUnreadMessages;
 
   addMessage(msg: Message, userCanSeeMessage: boolean): void {
     if (! userCanSeeMessage) {
-      this.numberUnreadMessages += 1;
+      this._numberUnreadMessages += 1;
     }
     // if author matches, just add the msg to the last MessageSet
-    if (msg.author === this.lastAuthor && this.messageSets.length > 0) {
-      this.messageSets[this.messageSets.length - 1].add(msg);
-      // else, create a new temp MessageSet using the msg
+    if (msg.author === this.lastAuthor && this._messageSets.length > 0) {
+      this._messageSets[this._messageSets.length - 1].add(msg);
+      // else, create a new temp MessageSet using the msg.
     } else {
       // push the temp MessageSet to the MessagesDisplayComponent's messageSets
       this.lastAuthor = msg.author;
-      this.messageSets.push(new MessageSet([msg]));
+      this._messageSets.push(new MessageSet([msg]));
     }
   }
 
@@ -41,13 +41,12 @@ export class Rooms {
   get userList(): User[] {
     return this._userList;
   }
-
-  get messageSets(): String[] {
-    return this.messageSets;
+  get messageSets(): MessageSet[] {
+    return this._messageSets;
   }
 
   get numberUnreadMessages(): number {
-    return this.numberUnreadMessages;
+    return this._numberUnreadMessages;
   }
 
   get OPList(): Map<String, User> {
