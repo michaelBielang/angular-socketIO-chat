@@ -40,14 +40,17 @@ export class Rooms {
     }
     // if author matches, just add the msg to the last MessageSet
     if (msg.author === this.lastAuthor && this.messageSets.length > 0) {
+      // todo make sure the setter of messageSets is called to trigger observer update
       this.messageSets[this.messageSets.length - 1].add(msg);
       console.log('a message was added to an exisiting messageSet');
       // else, create a new temp MessageSet using the msg.
     } else {
       // push the temp MessageSet to the MessagesDisplayComponent's messageSets
       this.lastAuthor = msg.author;
-      this.messageSets.push(new MessageSet([msg]));
-      console.log('a message was added to a new messageSet');
+      // this weird construct forces calling the setter, thereby doing Observable.next()
+      const tmpMessageSets = this.messageSets;
+      tmpMessageSets.push(new MessageSet([msg]));
+      this.messageSets = tmpMessageSets;
     }
   }
 
@@ -78,6 +81,10 @@ export class Rooms {
     return this._VoiceList;
   }
 
+  get lastAuthor(): string {
+    return this._lastAuthor;
+  }
+
 
   set userList(value: User[]) {
     this._userList = value;
@@ -86,6 +93,7 @@ export class Rooms {
 
   set messageSets(value: MessageSet[]) {
     this._messageSets = value;
+    console.log('messageSets setter called');
     this.messageSetsChanges.next(this.messageSets);
   }
 
