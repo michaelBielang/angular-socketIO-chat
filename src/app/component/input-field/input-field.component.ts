@@ -17,14 +17,11 @@ export class InputFieldComponent implements OnInit {
 
   public sendMessage(newInput: string) {
     if (newInput && !this.userInvited(newInput)) {
-      // this.messageService.add(newInput);
       console.log('sending message');
       this.socketService.sendEvent('SendMessageToRoom', ({
         'roomName': this.defaultRoom,
         'message': newInput
       }));
-      // add the message to the userService's roomMap's MessageSet via SOME addMessage function??
-      // this.userService.roomMap.get(this.userService.activeRoom).
     }
   }
 
