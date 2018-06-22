@@ -29,14 +29,6 @@ export class ChatRoomsComponent implements OnInit {
         // boolean of whether or not the message is actively being read
         obj.value.roomName === this.userService.activeRoom);
     });
-    this.userService.roomMap.get(this.userService.activeRoom).messageSetsChanges.subscribe(
-      (event) => {
-        console.log('messageSetsChanged!', event);
-      }
-    )
-
-
-
   }
 
 }

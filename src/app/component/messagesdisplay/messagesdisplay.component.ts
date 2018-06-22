@@ -12,6 +12,8 @@ import {BackendResponse} from '../../model/BackendResponse';
 })
 export class MessagesDisplayComponent implements OnInit {
 
+  private messageSets: MessageSet[];
+
   constructor(private userService: UserServiceService) {
 
   }
@@ -22,7 +24,10 @@ export class MessagesDisplayComponent implements OnInit {
     console.log('activeRoom:', this.userService.activeRoom);
     console.log('roomMap:', this.userService.roomMap);
     this.userService.roomMap.get(this.userService.activeRoom).messageSetsChanges.subscribe(
-      (next) => console.log('new msgSet:', next)
+      (next) => {
+        console.log('messageSets changed', next);
+        this.messageSets = next;
+      }
     );
   }
 
