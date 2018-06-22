@@ -1,0 +1,9 @@
+.messageinput-container {
+  height: 500px;
+  background: lightgrey;
+}
+
+.input-field {
+  position: absolute;
+  bottom: 0;
+}
