@@ -19,7 +19,6 @@ export class InputFieldComponent implements OnInit {
 
     // TODO auf Feedback vom Heidegger warten
     if (newInput && !this.userInvited(newInput)) {
-      // this.messageService.add(newInput);
       console.log('sending message');
       this.socketService.sendEvent('SendMessageToRoom', ({
         'roomName': this.defaultRoom,
@@ -125,10 +124,7 @@ export class InputFieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('automatically joining room general');
-    this.socketService.sendEvent('JoinRoom', {
-      'roomName': this.defaultRoom
-    });
+
   }
 
 }

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {UserServiceService} from '../../services/userService/user-service.service';
 import {SocketService} from '../../services/socketService/socket-service.service';
 import {Message} from '../../model/Message';
 import {MessageSet} from '../../model/MessageSet';
@@ -11,36 +12,23 @@ import {BackendResponse} from '../../model/BackendResponse';
 })
 export class MessagesDisplayComponent implements OnInit {
 
-  messageSets: MessageSet[];
-  lastauthor: string;
+  private messageSets: MessageSet[];
 
-  constructor(private socketService: SocketService,
-  ) {
+  constructor(private userService: UserServiceService) {
 
-    // add messages one by one, creating a new MessageSet for each new author
-    this.lastauthor = 'nobody';
-    this.messageSets = [];
-    this.socketService.receiveEvents('MessageSendToRoom').subscribe((message: MessageEvent) => {
-      const obj: BackendResponse = JSON.parse(message.data);
-      this.add(new Message(obj.value.message, obj.value.email, new Date()));
-    });
   }
-  add(msg: Message) {
-    // if author matches, just add the msg to the last MessageSet
-    if (msg.author === this.lastauthor && this.messageSets.length > 0) {
-      this.messageSets[this.messageSets.length - 1].add(msg);
-      // else, create a new temp MessageSet using the msg
-    } else {
-      // push the temp MessageSet to the MessagesDisplayComponent's messageSets
-      this.lastauthor = msg.author;
-      this.messageSets.push(new MessageSet([msg]));
-    }
-  }
-
 
   ngOnInit() {
     console.log('messagedisplay oninit');
     // this.getMessages();
+    console.log('activeRoom:', this.userService.activeRoom);
+    console.log('roomMap:', this.userService.roomMap);
+    this.userService.roomMap.get(this.userService.activeRoom).messageSetsChanges.subscribe(
+      (next) => {
+        console.log('messageSets changed', next);
+        this.messageSets = next;
+      }
+    );
   }
 
 }
