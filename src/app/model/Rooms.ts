@@ -59,7 +59,7 @@ export class Rooms {
   }
 
   hasVoice(roomName: String): boolean {
-    return true;
+    return this._VoiceList.has(roomName);
   }
 
   get userList(): User[] {

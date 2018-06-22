@@ -10,9 +10,9 @@ import {SocketService} from '../../services/socketService/socket-service.service
 export class RegisterComponent implements OnInit {
 
   private readonly _messages: MessageEvent[] = [];
+  private success: boolean = false;
 
   registerForm: FormGroup;
-  submitted = false;
   // messages received from the websocket
   // private _receiveEvents: BehaviorSubject<Object> = new BehaviorSubject<Object>(this._messages);
 
@@ -33,7 +33,11 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
 
     const userInputInTemplateForm = {
       email: this.registerForm.controls['email'].value,
@@ -43,15 +47,15 @@ export class RegisterComponent implements OnInit {
 
     // TODO check if user is already registered (optional: AlertService)
     this.socketService.receiveEvents('UserRegistered').subscribe((message: MessageEvent) => {
-      console.log('message: ' + message.data);
+      this.success = true;
     });
 
     this.socketService.sendEvent('RegisterUser', userInputInTemplateForm);
 
-    // stop here if form is invalid
-    if (this.registerForm.invalid) {
-      return;
+    if (this.success)
+      alert('SUCCESS!! :-)');
+    else{
+      alert('User already registered. Please chose another username');
     }
-    alert('SUCCESS!! :-)');
   }
 }

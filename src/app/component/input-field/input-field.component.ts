@@ -16,6 +16,8 @@ export class InputFieldComponent implements OnInit {
   }
 
   public sendMessage(newInput: string) {
+
+    // TODO auf Feedback vom Heidegger warten
     if (newInput && !this.userInvited(newInput)) {
       console.log('sending message');
       this.socketService.sendEvent('SendMessageToRoom', ({
@@ -25,6 +27,12 @@ export class InputFieldComponent implements OnInit {
     }
   }
 
+
+  /**
+   * intercepts if the user sends an invite request to the chat
+   * @param {string} userInput
+   * @returns {boolean} true = invited, false, not
+   */
   public userInvited(userInput: string): boolean {
     const regeg = '/invite ';
 
@@ -39,7 +47,7 @@ export class InputFieldComponent implements OnInit {
 
       // TODO Frage: Server schluckt ungültige Kommandos einfach?
       //this.userService.roomMap.get(relevantRoom).hasOP(relevantRoom);
-      if(!relevantRoom ){
+      if (!relevantRoom) {
         alert("Syntax Error. Use:    /invite email room");
         return true;
       }
@@ -62,6 +70,54 @@ export class InputFieldComponent implements OnInit {
       }
       else {
         alert("Syntax Error. Use:    /invite email room");
+      }
+    }
+    return false;
+  }
+
+  /**
+   * // TODO waiting response from heidegger
+   * intercepts if the user sends an invite request to the chat
+   * @param {string} userInput
+   * @returns {boolean} true = invited, false, not
+   */
+  public userKicked(userInput: string): boolean {
+    const regeg = '/kick ';
+
+    // TODO check if invite rights
+    // user tries to invite another user
+    if (userInput.search(regeg) !== -1) {
+
+      const splittedUserInput = userInput.split(' ');
+      const invitedUserEmail = splittedUserInput[1];
+      const relevantRoom: string = splittedUserInput[2];
+      console.log("kick received");
+
+      // TODO Frage: Server schluckt ungültige Kommandos einfach?
+      //this.userService.roomMap.get(relevantRoom).hasOP(relevantRoom);
+      if (!relevantRoom) {
+        alert("Syntax Error. Use:    /kick email room");
+        return true;
+      }
+      if (invitedUserEmail.search('@') !== -1 && relevantRoom.length > 0) {
+        const userInputInTemplateForm = {
+          roomName: relevantRoom,
+          email: invitedUserEmail,
+          invite: true
+        };
+
+        console.log("invited user: " + invitedUserEmail + " room: " + relevantRoom);
+
+        // TODO retreive relevant Event and handle AlertService
+        this.socketService.receiveEventString().subscribe((message: MessageEvent) => {
+          console.log('message: ' + message.data);
+        });
+
+        this.socketService.sendEvent('kickFromRoom', userInputInTemplateForm);
+        return true;
+      }
+      else {
+        alert("Syntax Error. Use:    /kick email room");
       }
     }
     return false;
