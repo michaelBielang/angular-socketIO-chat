@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SocketService } from '../../services/socketService/socket-service.service';
-
+import { UserServiceService } from '../../services/userService/user-service.service';
+import {Rooms} from '../../model/Rooms';
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
@@ -8,13 +9,15 @@ import { SocketService } from '../../services/socketService/socket-service.servi
 })
 export class RoomListComponent implements OnInit {
 
-  private rooms: string[];
+  rooms: IterableIterator<String>;
 
-  constructor() {
-
-   }
-
+  constructor(private socketService: SocketService, private userService: UserServiceService) {
+    this.rooms = userService.roomMap.keys();
+  }
   ngOnInit() {
   }
 
+  joinRoom(room: string): void {
+    this.userService.joinRoom(room);
+  }
 }

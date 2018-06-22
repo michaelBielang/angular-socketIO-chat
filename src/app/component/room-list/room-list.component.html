@@ -1,8 +1,10 @@
-<div class="container">
-<h2>Rooms</h2>
-<ul>
-  <li *ngFor="let hero of heroes">
-    {{ hero }}
-  </li>
-</ul>
+<div class="row">
+  <div class="rooms-container">
+    <h2>Rooms</h2>
+    <ul>
+      <li *ngFor="let room of rooms">
+        <a ng-click="joinRoom(room)">{{ room }}</a>
+      </li>
+    </ul>
+  </div>
 </div>
