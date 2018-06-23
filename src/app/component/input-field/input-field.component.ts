@@ -16,9 +16,8 @@ export class InputFieldComponent implements OnInit {
   }
 
   public sendMessage(newInput: string) {
-
     // TODO auf Feedback vom Heidegger warten
-    if (newInput && !this.userInvited(newInput)) {
+    if (newInput && !this.shellCommand(newInput)) {
       console.log('sending message');
       this.socketService.sendEvent('SendMessageToRoom', ({
         'roomName': this.defaultRoom,
@@ -27,100 +26,77 @@ export class InputFieldComponent implements OnInit {
     }
   }
 
-
-  /**
-   * intercepts if the user sends an invite request to the chat
-   * @param {string} userInput
-   * @returns {boolean} true = invited, false, not
-   */
-  public userInvited(userInput: string): boolean {
-    const regeg = '/invite ';
-
-    // TODO check if invite rights
-    // user tries to invite another user
-    if (userInput.search(regeg) !== -1) {
-
-      const splittedUserInput = userInput.split(' ');
-      const invitedUserEmail = splittedUserInput[1];
-      const relevantRoom: string = splittedUserInput[2];
-      console.log("invite received");
-
-      // TODO Frage: Server schluckt ungültige Kommandos einfach?
-      //this.userService.roomMap.get(relevantRoom).hasOP(relevantRoom);
-      if (!relevantRoom) {
-        alert("Syntax Error. Use:    /invite email room");
-        return true;
-      }
-      if (invitedUserEmail.search('@') !== -1 && relevantRoom.length > 0) {
-        const userInputInTemplateForm = {
-          roomName: relevantRoom,
-          email: invitedUserEmail,
-          invite: true
-        };
-
-        console.log("invited user: " + invitedUserEmail + " room: " + relevantRoom);
-
-        // TODO retreive relevant Event and handle AlertService
-        this.socketService.receiveEventString().subscribe((message: MessageEvent) => {
-          console.log('message: ' + message.data);
-        });
-
-        this.socketService.sendEvent('InviteToRoom', userInputInTemplateForm);
-        return true;
-      }
-      else {
-        alert("Syntax Error. Use:    /invite email room");
-      }
+  public shellCommand(userInput: string): boolean {
+    if (userInput.search('/invite ') !== -1) {
+      return this.createMessage(userInput, 'invite');
+    } else if (userInput.search('/kick ') !== -1) {
+      return this.createMessage(userInput, 'kick');
+    }
+    else if (userInput.search('/giveop ') !== -1) {
+      return this.createMessage(userInput, 'giveop');
+    }
+    else if (userInput.search('/removeop ') !== -1) {
+      return this.createMessage(userInput, 'removeop');
+    }
+    else if (userInput.search('/givevoice ') !== -1) {
+      return this.createMessage(userInput, 'givevoice');
+    }
+    else if (userInput.search('/removevoice ') !== -1) {
+      return this.createMessage(userInput, 'removevoice');
     }
     return false;
   }
 
-  /**
-   * // TODO waiting response from heidegger
-   * intercepts if the user sends an invite request to the chat
-   * @param {string} userInput
-   * @returns {boolean} true = invited, false, not
-   */
-  public userKicked(userInput: string): boolean {
-    const regeg = '/kick ';
+  private createMessage(userInput: string, command: string): boolean {
+    const splittedUserInput = userInput.split(' ');
+    const invitedUserEmail = splittedUserInput[1];
+    const relevantRoom: string = splittedUserInput[2];
 
-    // TODO check if invite rights
-    // user tries to invite another user
-    if (userInput.search(regeg) !== -1) {
-
-      const splittedUserInput = userInput.split(' ');
-      const invitedUserEmail = splittedUserInput[1];
-      const relevantRoom: string = splittedUserInput[2];
-      console.log("kick received");
-
-      // TODO Frage: Server schluckt ungültige Kommandos einfach?
-      //this.userService.roomMap.get(relevantRoom).hasOP(relevantRoom);
-      if (!relevantRoom) {
-        alert("Syntax Error. Use:    /kick email room");
-        return true;
-      }
-      if (invitedUserEmail.search('@') !== -1 && relevantRoom.length > 0) {
-        const userInputInTemplateForm = {
-          roomName: relevantRoom,
-          email: invitedUserEmail,
-          invite: true
-        };
-
-        console.log("invited user: " + invitedUserEmail + " room: " + relevantRoom);
-
-        // TODO retreive relevant Event and handle AlertService
-        this.socketService.receiveEventString().subscribe((message: MessageEvent) => {
-          console.log('message: ' + message.data);
-        });
-
-        this.socketService.sendEvent('kickFromRoom', userInputInTemplateForm);
-        return true;
-      }
-      else {
-        alert("Syntax Error. Use:    /kick email room");
-      }
+    if (command === 'invite') {
+      this.sendShellCommandToSock('InviteToRoom', this.getInviteKick(relevantRoom, invitedUserEmail, true));
+    } else if (command === 'kick') {
+      this.sendShellCommandToSock('InviteToRoom', this.getInviteKick(relevantRoom, invitedUserEmail, false));
+    } else if (command === 'giveop') {
+      this.sendShellCommandToSock('GrantOp', this.getOP(relevantRoom, invitedUserEmail, true));
+    } else if (command === 'removeop') {
+      this.sendShellCommandToSock('GrantOp', this.getOP(relevantRoom, invitedUserEmail, false));
+    } else if (command === 'givevoice') {
+      this.sendShellCommandToSock('SetVoiceRoom', this.getVoice(relevantRoom, invitedUserEmail, true));
+    } else if (command === 'removevoice') {
+      this.sendShellCommandToSock('SetVoiceRoom', this.getVoice(relevantRoom, invitedUserEmail, false));
     }
-    return false;
+    return true;
+  }
+
+  private getInviteKick(roomname: String, invitedUserEmail: String, invite: boolean): any {
+    return {
+      roomName: roomname,
+      email: invitedUserEmail,
+      invite: invite
+    };
+  }
+
+  private getVoice(roomname: String, invitedUserEmail: String, voice: boolean): any {
+    return {
+      roomName: roomname,
+      email: invitedUserEmail,
+      voice: voice
+    };
+  }
+
+  private getOP(roomname: String, invitedUserEmail: String, op: boolean): any {
+    return {
+      roomName: roomname,
+      email: invitedUserEmail,
+      op: op
+    };
+  }
+
+  private sendShellCommandToSock(command: string, obj: any) {
+    console.log('received command: ' + command);
+    //TODO frage wie man an den wert von command im Interface rankommt
+    console.log('obj: ' + (<ShellInterface>obj).roomName);
+    this.socketService.sendEvent(command, obj);
   }
 
   ngOnInit() {
