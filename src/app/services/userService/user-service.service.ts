@@ -4,6 +4,7 @@ import {BackendResponse} from '../../model/BackendResponse';
 import {Message} from '../../model/Message';
 import {SocketService} from '../socketService/socket-service.service';
 import {User} from '../../model/User';
+import {BehaviorSubject} from "rxjs/index";
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,17 @@ export class UserServiceService {
   private _currentUser: User;
   private _roomMap: Map<String, Rooms> = new Map<String, Rooms>();
   private _activeRoom: string;
+  public roomMapChanges: BehaviorSubject<Map<String, Rooms>>;
 
   constructor(private socketService: SocketService) {
+    this.roomMapChanges = new BehaviorSubject(new Map<String, Rooms>());
   }
   joinRoom(roomName: string): void {
     this._roomMap.set(roomName, new Rooms());
+    // todo: decide if we want to alert subscribers NOW or AFTER FEEDBACK from the server
+    this.roomMapChanges.next(this.roomMap);
     this.socketService.sendEvent('JoinRoom', {
-      'roomName': 'general'
+      'roomName': roomName
     });
     this.showRoom(roomName);
   }
