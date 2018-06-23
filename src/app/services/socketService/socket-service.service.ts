@@ -55,7 +55,9 @@ export class SocketService {
    * @param data the object itself
    */
   sendEvent(type: string, data: any) {
+    console.log('socketService: sending message of type',type)
     if (this.socket === undefined) {
+      console.log('sendEvent creating new websocket!')
       this.createWebsocket();
     }
     const command = {
