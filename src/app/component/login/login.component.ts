@@ -65,12 +65,12 @@ export class LoginComponent implements OnInit {
       this.userService.currentUser = currentUser;
       console.log(obj.type);
       console.log((obj.value));
+      this.router.navigate(['/chat-rooms']);
     });
 
     this.loading = true;
 
     this.socketService.sendEvent('Login', userInputInTemplateForm);
-    this.router.navigate(['/chat-rooms']);
   }
 
 }
