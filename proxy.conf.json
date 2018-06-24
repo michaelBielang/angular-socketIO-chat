@@ -1,0 +1,8 @@
+{
+  "/gifs/*": {
+    "target": "https://api.giphy.com/v1/gifs/random?api_key=V8v8bUpY6A78m3Ao59coW026RJ0VvDOA&tag=cat&rating=G",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
