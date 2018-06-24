@@ -20,7 +20,7 @@ export class InputFieldComponent implements OnInit {
     if (newInput && !this.shellCommand(newInput)) {
       console.log('sending message');
       this.socketService.sendEvent('SendMessageToRoom', ({
-        'roomName': this.defaultRoom,
+        'roomName': this.userService.activeRoom,
         'message': newInput
       }));
     }

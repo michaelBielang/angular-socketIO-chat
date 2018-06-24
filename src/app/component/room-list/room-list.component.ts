@@ -9,15 +9,30 @@ import {Rooms} from '../../model/Rooms';
 })
 export class RoomListComponent implements OnInit {
 
-  rooms: IterableIterator<String>;
+  activeRoom : string;
+  rooms: Map<String, Rooms>;
+  roomList: any[];
 
   constructor(private socketService: SocketService, private userService: UserServiceService) {
-    this.rooms = userService.roomMap.keys();
-  }
-  ngOnInit() {
+    // this.rooms = userService.roomMap.keys();
   }
 
-  joinRoom(room: string): void {
-    this.userService.joinRoom(room);
+  ngOnInit() {
+    this.getRooms();
+  }
+
+  getRooms(): void {
+    this.userService.roomMapChanges.subscribe(rooms => {
+      this.rooms = rooms;
+      this.roomList = Array.from(this.rooms.keys());
+    });
+    this.userService.activeRoomChanges.subscribe(room => {
+      this.activeRoom = room;
+    });
+  }
+
+  showRoom(room: string): void {
+    console.log('room-list showRoom called');
+    this.userService.showRoom(room);
   }
 }

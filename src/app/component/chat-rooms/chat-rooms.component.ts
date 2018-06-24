@@ -15,6 +15,8 @@ export class ChatRoomsComponent implements OnInit {
 
   ngOnInit() {
     console.log('automatically joining room general');
+    this.userService.joinRoom('Angst vor Vorträgen');
+    this.userService.joinRoom('Vorführeffekt Fails');
     this.userService.joinRoom('general');
     this.userService.activeRoom = 'general';
 
