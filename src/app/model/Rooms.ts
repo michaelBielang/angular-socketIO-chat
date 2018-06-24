@@ -20,6 +20,8 @@ export class Rooms {
 
   constructor() {
     this.userListChanges = new BehaviorSubject([]);
+    console.log('Rooms constructor; resetting userList');
+    this.userList = [];
     this.messageSetsChanges = new BehaviorSubject(
       [(new MessageSet(
         [new Message('Welcome!', 'System', new Date())
@@ -88,6 +90,7 @@ export class Rooms {
 
   set userList(value: User[]) {
     this._userList = value;
+    console.log('Rooms got new userList:',value);
     this.userListChanges.next(this.userList);
   }
 
