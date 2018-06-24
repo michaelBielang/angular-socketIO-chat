@@ -9,7 +9,7 @@ import {Rooms} from '../../model/Rooms';
 })
 export class RoomListComponent implements OnInit {
 
-  activeRoom : string;
+  activeRoom: string;
   rooms: Map<String, Rooms>;
   roomList: any[];
 
