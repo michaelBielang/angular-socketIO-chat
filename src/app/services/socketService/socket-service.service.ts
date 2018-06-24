@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable, Observer, Subject} from 'rxjs/index';
+import {BehaviorSubject, Observable, Observer, Subject} from 'rxjs/index';
 import {filter} from 'rxjs/operators';
 import {BackendResponse} from '../../model/BackendResponse';
 
@@ -10,11 +10,18 @@ export class SocketService {
 
   // subject that contains the observable to send messages to the websocket
   private _subject: Subject<any>;
+  private _observable: Observable<Object>;
+  public messageListener: BehaviorSubject<string>;
 
   private socket: WebSocket;
 
   constructor() {
     this.createWebsocket();
+    this.messageListener = new BehaviorSubject('{"type":"PlaceHolder","value":{"myKey":"myValue"}}');
+    this.receiveEvents().subscribe((messageEvent: MessageEvent) => {
+      console.log('sending event to subs');
+      this.messageListener.next(messageEvent.data);
+    });
   }
 
   private createWebsocket() {
@@ -36,6 +43,7 @@ export class SocketService {
       }
     };
     this._subject = Subject.create(observer, observable);
+    this.bindObservable();
   }
 
   disconnect() {
@@ -55,9 +63,9 @@ export class SocketService {
    * @param data the object itself
    */
   sendEvent(type: string, data: any) {
-    console.log('socketService: sending message of type',type)
+    console.log('socketService: sending message of type', type);
     if (this.socket === undefined) {
-      console.log('sendEvent creating new websocket!')
+      console.log('sendEvent creating new websocket!');
       this.createWebsocket();
     }
     const command = {
@@ -70,25 +78,14 @@ export class SocketService {
   /**
    * @returns {Observable<Object>}
    */
-  receiveEvents(relevantEvent): Observable<Object> {
-    console.log('subscribed to ', relevantEvent);
-    return this._subject.asObservable()
-      .pipe(filter((event: Event) => event != null))
-      .pipe(filter((event: MessageEvent) => {
-        console.log('frontend received an event:', event);
-        const obj: BackendResponse = JSON.parse(event.data);
-        console.log('receiveEvents second filter, compare:', obj.type, relevantEvent);
-        return obj.type === relevantEvent;
-      }));
+  receiveEvents(): Observable<Object> {
+    return this._observable;
   }
 
-  /**
-   * Helper method to find the returning event name
-   * @returns {Observable<Object>}
-   */
-  receiveEventString(): Observable<Object> {
-    return this._subject.asObservable()
+  private bindObservable(): void {
+    this._observable = this._subject.asObservable()
       .pipe(filter((event: Event) => event != null));
   }
+
 
 }

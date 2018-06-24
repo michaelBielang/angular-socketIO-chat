@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SocketService} from '../../services/socketService/socket-service.service';
+import {BackendResponse} from "../../model/BackendResponse";
 
 @Component({
   selector: 'app-register',
@@ -46,15 +47,19 @@ export class RegisterComponent implements OnInit {
     };
 
     // TODO check if user is already registered (optional: AlertService)
-    this.socketService.receiveEvents('UserRegistered').subscribe((message: MessageEvent) => {
-      this.success = true;
+
+    this.socketService.messageListener.subscribe((event: string) => {
+      const obj: BackendResponse = JSON.parse(event);
+      if (obj.type === 'UserRegistered') {
+        this.success = true;
+      }
     });
 
     this.socketService.sendEvent('RegisterUser', userInputInTemplateForm);
 
     if (this.success)
       alert('SUCCESS!! :-)');
-    else{
+    else {
       alert('User already registered. Please chose another username');
     }
   }

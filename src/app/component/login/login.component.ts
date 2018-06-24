@@ -61,12 +61,14 @@ export class LoginComponent implements OnInit {
     };
 
     // TODO (optional: AlertService)
-    this.socketService.receiveEvents('LoggedIn').subscribe((message: MessageEvent) => {
-      const obj: BackendResponse = JSON.parse(message.data);
-      this.userService.currentUser = currentUser;
-      console.log(obj.type);
-      console.log((obj.value));
-      this.router.navigate(['/chat-rooms']);
+    this.socketService.messageListener.subscribe((event: string) => {
+      const obj: BackendResponse = JSON.parse(event);
+      if (obj.type === 'LoggedIn') {
+        this.userService.currentUser = currentUser;
+        console.log(obj.type);
+        console.log((obj.value));
+        this.router.navigate(['/chat-rooms']);
+      }
     });
 
     this.loading = true;
