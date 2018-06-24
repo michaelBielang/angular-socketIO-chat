@@ -6,6 +6,10 @@
     <li *ngFor="let message of messageSet.messages">
       <span class="badge">{{message.date.getHours() + ":" + (message.date.getMinutes()<10?'0':'') +  message.date.getMinutes()}}</span><span class="badge">{{message.text}}</span>
     </li>
+    <div *ngIf="messageSet.isMedia; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock><li><img src="{{ messageSet.mediaURL }}"></li></ng-template>
+    <ng-template #elseBlock></ng-template>
   </ul>
 </div>
+
 
