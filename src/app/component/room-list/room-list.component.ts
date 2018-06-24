@@ -27,7 +27,7 @@ export class RoomListComponent implements OnInit {
     });
   }
 
-  joinRoom(room: string): void {
-    this.userService.joinRoom(room);
+  showRoom(room: string): void {
+    this.userService.showRoom(room);
   }
 }
