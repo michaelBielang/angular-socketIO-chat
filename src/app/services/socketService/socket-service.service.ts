@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Observer, Subject} from 'rxjs/index';
 import {filter} from 'rxjs/operators';
-import {BackendResponse} from '../../model/BackendResponse';
+import {BackendResponse} from "../../model/BackendResponse";
+import {InviteOPVoice} from "../../model/InviteOPVoice";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class SocketService {
     this.createWebsocket();
     this.messageListener = new BehaviorSubject('{"type":"PlaceHolder","value":{"myKey":"myValue"}}');
     this.receiveEvents().subscribe((messageEvent: MessageEvent) => {
-      console.log('sending event to subs');
+      console.log('sending Event to messageListener');
       this.messageListener.next(messageEvent.data);
     });
   }
@@ -63,7 +64,6 @@ export class SocketService {
    * @param data the object itself
    */
   sendEvent(type: string, data: any) {
-    console.log('socketService: sending message of type', type);
     if (this.socket === undefined) {
       console.log('sendEvent creating new websocket!');
       this.createWebsocket();

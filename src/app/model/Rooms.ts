@@ -1,7 +1,7 @@
 import {User} from './User';
 import {MessageSet} from './MessageSet';
 import {Message} from './Message';
-import {Observable, from, BehaviorSubject} from 'rxjs/index';
+import {BehaviorSubject} from 'rxjs/index';
 
 export class Rooms {
 
@@ -21,7 +21,6 @@ export class Rooms {
 
   constructor() {
     this.userListChanges = new BehaviorSubject([]);
-    console.log('Rooms constructor; resetting userList');
     this.userList = [];
     this.messageSetsChanges = new BehaviorSubject(
       [(new MessageSet(
@@ -39,13 +38,13 @@ export class Rooms {
 
 
   addMessage(msg: Message, userCanSeeMessage: boolean): void {
-    if (! userCanSeeMessage) {
+    if (!userCanSeeMessage) {
       this.numberUnreadMessages += 1;
     }
     // if giphy, add new messageSet
     if (msg.text.startsWith('!giphy')) {
       this.lastMessageWasMedia = true;
-      console.log('hmmmmmmm');
+
       this.lastAuthor = msg.author;
       // this weird construct forces calling the setter, thereby doing Observable.next()
       const tmpMessageSets = this.messageSets;
@@ -53,11 +52,10 @@ export class Rooms {
       mediaMessageSet.isMedia = true;
       var request = new XMLHttpRequest();
       let wish = msg.text.split(' ')[1];
-      request.open('GET', '/gifs/random?api_key=V8v8bUpY6A78m3Ao59coW026RJ0VvDOA&tag='+wish+'&rating=G', false);  // `false` makes the request synchronous
+      request.open('GET', '/gifs/random?api_key=V8v8bUpY6A78m3Ao59coW026RJ0VvDOA&tag=' + wish + '&rating=G', false);  // `false` makes the request synchronous
       request.send();
 
       if (request.status === 200) {
-        console.log(JSON.parse(request.responseText));
         let gifurl = JSON.parse(request.responseText).data.images.fixed_height.url;
         mediaMessageSet.mediaURL = gifurl;
         tmpMessageSets.push(mediaMessageSet);
@@ -69,7 +67,6 @@ export class Rooms {
     if (msg.author === this.lastAuthor && this.messageSets.length > 0 && !this.lastMessageWasMedia) {
       // todo make sure the setter of messageSets is called to trigger observer update
       this.messageSets[this.messageSets.length - 1].add(msg);
-      console.log('a message was added to an exisiting messageSet');
       // else, create a new temp MessageSet using the msg.
     } else {
       this.lastMessageWasMedia = false;
@@ -93,6 +90,7 @@ export class Rooms {
   get userList(): User[] {
     return this._userList;
   }
+
   get messageSets(): MessageSet[] {
     return this._messageSets;
   }
@@ -116,13 +114,11 @@ export class Rooms {
 
   set userList(value: User[]) {
     this._userList = value;
-    console.log('Rooms got new userList:',value);
     this.userListChanges.next(this.userList);
   }
 
   set messageSets(value: MessageSet[]) {
     this._messageSets = value;
-    console.log('messageSets setter called');
     this.messageSetsChanges.next(this.messageSets);
   }
 

@@ -24,7 +24,6 @@ export class PeopleListComponent implements OnInit {
 
   ngOnInit() {
     this.getPeople();
-    console.log('people-list subscribing to socket events');
     this.subscribeToSocketEvents();
   }
 
@@ -35,7 +34,6 @@ export class PeopleListComponent implements OnInit {
       // todo unsubscribe from the previous activeRoom subscriptions (HOW?!)
       this.userService.roomMap.get(room).userListChanges.subscribe(userList => {
         this.userList = userList;
-        console.log('people-list got ' + userList.length + ' users:',userList);
       });
       this.userService.roomMap.get(room).VoiceListChanges.subscribe(voiceList => {
         this.voiceList = voiceList;
@@ -49,14 +47,11 @@ export class PeopleListComponent implements OnInit {
   private subscribeToSocketEvents(): void {
     // RoomJoined: add the new person to the respective room's userList, if he's not already there
     this.socketService.messageListener.subscribe((message: string) => {
-      console.log('people list got event:',message);
       const obj: BackendResponse = JSON.parse(message);
       if (obj.type !== 'RoomJoined') {
         return;
       }
-      console.log('in people-list; got RoomJoined message');
 
-      console.log('msg data', obj);
       let tempUserList = this.userService.roomMap.get(obj.value.roomName).userList;
       const newUserEmail = obj.value.email;
       const newUserUsername = obj.value.name;
@@ -72,7 +67,6 @@ export class PeopleListComponent implements OnInit {
         console.log('changing userList from ',this.userService.roomMap.get(obj.value.roomName).userList,' to ',tempUserList);
         this.userService.roomMap.get(obj.value.roomName).userList = tempUserList;
       } else {
-        console.log('the user ' + newUserEmail + ' is already in this userList:',tempUserList);
       }
     });
     // RoomLeft: remove the person from the respective room's userList, if he's there

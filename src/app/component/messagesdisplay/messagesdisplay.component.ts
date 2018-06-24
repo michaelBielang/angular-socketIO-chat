@@ -22,31 +22,21 @@ export class MessagesDisplayComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('messagedisplay oninit');
     // this.getMessages();
-    console.log('activeRoom:', this.userService.activeRoom);
-    console.log('roomMap:', this.userService.roomMap);
     this.messageSubscription = this.userService.roomMap.get(this.userService.activeRoom).messageSetsChanges.subscribe(
       (next) => {
-        console.log('messageSets changed due to new messages (probably)', next);
         this.messageSets = next;
         if (typeof this.messageSets !== 'undefined' && this.messageSets.length > 0) {
           let lastMessage = (this.messageSets[this.messageSets.length-1].messages[(this.messageSets[this.messageSets.length-1].messages.length-1)]);
-          console.log('last message:', lastMessage);
-          if (lastMessage.text.startsWith('!giphy')) {
-            console.log('hmmmmmmmmmmmmmmmmmmm!');
-          }
         }
       }
     );
     this.userService.activeRoomChanges.subscribe(
       (next) => {
-        console.log('active room changed for message display', next);
         this.messageSubscription.unsubscribe();
         // get the new messageSet when the room changes
         this.messageSubscription = this.userService.roomMap.get(this.userService.activeRoom).messageSetsChanges.subscribe(
           (next) => {
-            console.log('messageSets changed due to different active Room', next);
             this.messageSets = next;
           }
         );

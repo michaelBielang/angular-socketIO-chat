@@ -32,7 +32,6 @@ export class RoomListComponent implements OnInit {
   }
 
   showRoom(room: string): void {
-    console.log('room-list showRoom called');
     this.userService.showRoom(room);
   }
 }
