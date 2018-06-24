@@ -50,9 +50,7 @@ export class SettingsComponent implements OnInit {
       newPassword: newPassword
     };
 
-    this.socketService.receiveEventString().subscribe((message: MessageEvent) => {
-      console.log('message: ' + message.data);
-    });
+//TODO send success by alertService if succeeded
 
     this.socketService.sendEvent('ChangeUserPassword', ChangeUserPassword);
     this.socketService.sendEvent('RenameUser', renameUser);
