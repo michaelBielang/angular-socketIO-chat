@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SocketService} from "../../services/socketService/socket-service.service";
 import {BackendResponse} from "../../model/BackendResponse";
 import {Message} from "../../model/Message";
@@ -11,7 +11,8 @@ import {UserServiceService} from "../../services/userService/user-service.servic
 })
 export class ChatRoomsComponent implements OnInit {
 
-  constructor(private socketService: SocketService, private userService: UserServiceService) { }
+  constructor(private socketService: SocketService, private userService: UserServiceService) {
+  }
 
   ngOnInit() {
     console.log('automatically joining room general');
@@ -21,16 +22,17 @@ export class ChatRoomsComponent implements OnInit {
     this.userService.activeRoom = 'general';
 
     console.log('currently active room:', this.userService.activeRoom);
-    this.socketService.receiveEvents('MessageSendToRoom').subscribe((message: MessageEvent) => {
-      console.log('in userService; got MessageSendToRoom message');
-      const obj: BackendResponse = JSON.parse(message.data);
-      // add the new message to the respective room
-      this.userService.roomMap.get(obj.value.roomName).addMessage(
-        // the message including message text, email and datetime of arrival
-        new Message(obj.value.message, obj.value.email, new Date()),
-        // boolean of whether or not the message is actively being read
-        obj.value.roomName === this.userService.activeRoom);
+
+    this.socketService.receiveEvents().subscribe((event: MessageEvent) => {
+      const obj: BackendResponse = JSON.parse(event.data);
+      if (obj.type === 'MessageSendToRoom') {
+        // add the new message to the respective room
+        this.userService.roomMap.get(obj.value.roomName).addMessage(
+          // the message including message text, email and datetime of arrival
+          new Message(obj.value.message, obj.value.email, new Date()),
+          // boolean of whether or not the message is actively being read
+          obj.value.roomName === this.userService.activeRoom);
+      }
     });
   }
-
 }
