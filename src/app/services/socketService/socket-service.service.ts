@@ -17,8 +17,9 @@ export class SocketService {
 
   constructor() {
     this.createWebsocket();
-    this.messageListener = new BehaviorSubject('initial string');
+    this.messageListener = new BehaviorSubject('{"type":"PlaceHolder","value":{"myKey":"myValue"}}');
     this.receiveEvents().subscribe((messageEvent: MessageEvent) => {
+      console.log('sending event to subs');
       this.messageListener.next(messageEvent.data);
     });
   }
