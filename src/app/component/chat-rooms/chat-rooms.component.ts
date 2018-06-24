@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SocketService} from "../../services/socketService/socket-service.service";
 import {BackendResponse} from "../../model/BackendResponse";
 import {Message} from "../../model/Message";
