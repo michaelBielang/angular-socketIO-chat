@@ -18,3 +18,16 @@
 .pointer {
   cursor: pointer;
 }
+.list-group-item.active {
+  background-color: #82e182;
+  border-color: #6ddc6d;
+}
+
+.badge-primary {
+  background-color: #82e182;
+}
+
+.btn-primary {
+  background-color: #82e182;
+  border-color: #6ddc6d;
+}
