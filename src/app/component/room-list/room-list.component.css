@@ -31,3 +31,9 @@
   background-color: #82e182;
   border-color: #6ddc6d;
 }
+.logo {
+  padding-top: 15px;
+  display: block;
+  margin: auto;
+  height: 150px;
+}

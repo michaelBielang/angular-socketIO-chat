@@ -1,5 +1,6 @@
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<h2 class="headline-app">Rooms</h2>
+<img src="assets/chapp.png" alt="Chapp" class="logo" />
+<h3 class="headline-app">Rooms</h3>
 <ul class="list-group pointer">
   <li *ngFor="let room of roomList" (click)="showRoom(room)" [ngClass]="{'active': room===activeRoom}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
     {{ room }}
