@@ -13,11 +13,14 @@ export class UserServiceService {
 
   private _currentUser: User;
   private _roomMap: Map<String, Rooms> = new Map<String, Rooms>();
-  private _activeRoom: string;
   public roomMapChanges: BehaviorSubject<Map<String, Rooms>>;
+  private _activeRoom: string;
+  public activeRoomChanges: BehaviorSubject<string>;
 
   constructor(private socketService: SocketService) {
     this.roomMapChanges = new BehaviorSubject(new Map<String, Rooms>());
+    // todo change hardcoded default activeRoom
+    this.activeRoomChanges = new BehaviorSubject('general');
   }
   joinRoom(roomName: string): void {
     this._roomMap.set(roomName, new Rooms());
