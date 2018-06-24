@@ -48,6 +48,7 @@ export class UserServiceService {
   }
   set activeRoom(room: string) {
     this._activeRoom = room;
+    this.activeRoomChanges.next(this.activeRoom);
   }
 
   get roomMap(): Map<String, Rooms> {
