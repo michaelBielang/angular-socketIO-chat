@@ -9,6 +9,7 @@ import {Rooms} from '../../model/Rooms';
 })
 export class RoomListComponent implements OnInit {
 
+  activeRoom : string;
   rooms: Map<String, Rooms>;
   roomList: any[];
 
@@ -25,9 +26,13 @@ export class RoomListComponent implements OnInit {
       this.rooms = rooms;
       this.roomList = Array.from(this.rooms.keys());
     });
+    this.userService.activeRoomChanges.subscribe(room => {
+      this.activeRoom = room;
+    });
   }
 
   showRoom(room: string): void {
+    console.log('room-list showRoom called');
     this.userService.showRoom(room);
   }
 }
