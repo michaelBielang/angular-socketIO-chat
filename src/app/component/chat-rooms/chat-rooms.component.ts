@@ -23,8 +23,8 @@ export class ChatRoomsComponent implements OnInit {
 
     console.log('currently active room:', this.userService.activeRoom);
 
-    this.socketService.receiveEvents().subscribe((event: MessageEvent) => {
-      const obj: BackendResponse = JSON.parse(event.data);
+    this.socketService.messageListener.subscribe((event: string) => {
+      const obj: BackendResponse = JSON.parse(event);
       if (obj.type === 'MessageSendToRoom') {
         // add the new message to the respective room
         this.userService.roomMap.get(obj.value.roomName).addMessage(

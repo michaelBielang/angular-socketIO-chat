@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Observable, Observer, Subject} from 'rxjs/index';
+import {BehaviorSubject, Observable, Observer, Subject} from 'rxjs/index';
 import {filter} from 'rxjs/operators';
+import {BackendResponse} from '../../model/BackendResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,16 @@ export class SocketService {
   // subject that contains the observable to send messages to the websocket
   private _subject: Subject<any>;
   private _observable: Observable<Object>;
+  public messageListener: BehaviorSubject<string>;
 
   private socket: WebSocket;
 
   constructor() {
     this.createWebsocket();
+    this.messageListener = new BehaviorSubject('initial string');
+    this.receiveEvents().subscribe((messageEvent: MessageEvent) => {
+      this.messageListener.next(messageEvent.data);
+    });
   }
 
   private createWebsocket() {

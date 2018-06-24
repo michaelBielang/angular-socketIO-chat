@@ -48,8 +48,8 @@ export class RegisterComponent implements OnInit {
 
     // TODO check if user is already registered (optional: AlertService)
 
-    this.socketService.receiveEvents().subscribe((event: MessageEvent) => {
-      const obj: BackendResponse = JSON.parse(event.data);
+    this.socketService.messageListener.subscribe((event: string) => {
+      const obj: BackendResponse = JSON.parse(event);
       if (obj.type === 'UserRegistered') {
         this.success = true;
       }
