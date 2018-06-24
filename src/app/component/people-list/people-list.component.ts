@@ -48,9 +48,14 @@ export class PeopleListComponent implements OnInit {
 
   private subscribeToSocketEvents(): void {
     // RoomJoined: add the new person to the respective room's userList, if he's not already there
-    this.socketService.receiveEvents('RoomJoined').subscribe((message: MessageEvent) => {
+    this.socketService.messageListener.subscribe((message: string) => {
+      console.log('people list got event:',message);
+      const obj: BackendResponse = JSON.parse(message);
+      if (obj.type !== 'RoomJoined') {
+        return;
+      }
       console.log('in people-list; got RoomJoined message');
-      const obj: BackendResponse = JSON.parse(message.data);
+
       console.log('msg data', obj);
       let tempUserList = this.userService.roomMap.get(obj.value.roomName).userList;
       const newUserEmail = obj.value.email;
