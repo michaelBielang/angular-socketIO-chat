@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit {
     }
 
     const email: String = this.loginForm.controls['email'].value;
-    const currentUser: User = new User(email);
+    // todo add username to registration, not just email
+    const currentUser: User = new User(email, email);
 
     const userInputInTemplateForm = {
       password: this.loginForm.controls['password'].value,
