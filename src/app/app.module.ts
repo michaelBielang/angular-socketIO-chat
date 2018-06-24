@@ -14,6 +14,7 @@ import {LogoutComponent} from './component/logout/logout.component';
 import {RoomListComponent} from './component/room-list/room-list.component';
 import {SettingsComponent} from './component/settings/settings.component';
 import {MessagesDisplayAndInputComponent} from './component/messages-display-and-input/messages-display-and-input.component';
+import {PeopleListComponent} from './component/people-list/people-list.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {MessagesDisplayAndInputComponent} from './component/messages-display-and
     LogoutComponent,
     RoomListComponent,
     SettingsComponent,
-    MessagesDisplayAndInputComponent
+    MessagesDisplayAndInputComponent,
+    PeopleListComponent
   ],
   imports: [
     BrowserModule,
