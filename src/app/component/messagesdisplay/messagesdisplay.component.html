@@ -10,9 +10,9 @@
     </div>
     <div *ngIf="messageSet.isMedia; then thenBlock else elseBlock"></div>
     <ng-template #thenBlock>
-      <li>
+      <div>
         <img src="{{ messageSet.mediaURL }}">
-      </li>
+      </div>
     </ng-template>
     <ng-template #elseBlock></ng-template>
   </div>
