@@ -24,11 +24,13 @@ export class UserServiceService {
     this.activeRoomChanges = new BehaviorSubject('general');
   }
 
+  /**
+   * This function intercepts possible invites, granted voices/op's
+   * Important: Function get's NOT called if the origin event was not legitimated to send an event.
+   */
   public interceptIncomingCommands() {
-    console.log('called');
     // TODO (optional: AlertService)
     this.socketService.messageListener.subscribe((event: string) => {
-      console.log('here: ' +  Date.now().toFixed());
       const backendResponse: BackendResponse = JSON.parse(event);
       const inviteOPVoice: InviteOPVoice = backendResponse.value;
       if (inviteOPVoice.email === this._currentUser.email) {

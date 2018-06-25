@@ -54,6 +54,11 @@ export class AlertService {
     this.userService.joinRoom(this.relevantRoom);
   }
 
+  /**
+   * Receives event from user-service
+   * @param {String} event
+   * @param {string} room
+   */
   public notifyUser(event: String, room: string) {
     this.relevantRoom = room;
     //todo display information

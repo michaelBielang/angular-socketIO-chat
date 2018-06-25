@@ -25,6 +25,11 @@ export class InputFieldComponent implements OnInit {
     }
   }
 
+  /**
+   * TODO implement interception of wrong input
+   * @param {string} userInput
+   * @returns {boolean}
+   */
   public shellCommand(userInput: string): boolean {
     if (userInput.search('/invite ') !== -1) {
       return this.createMessage(userInput, 'invite');
