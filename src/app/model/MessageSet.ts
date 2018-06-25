@@ -2,6 +2,8 @@ import {Message} from './Message';
 export class MessageSet {
 
   _author;
+  public isMedia: boolean;
+  public mediaURL: string;
 
   constructor(private _messages: Message[]) {
     this._author = _messages[0].author;

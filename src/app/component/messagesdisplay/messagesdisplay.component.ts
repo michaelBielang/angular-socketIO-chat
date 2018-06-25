@@ -4,7 +4,8 @@ import {SocketService} from '../../services/socketService/socket-service.service
 import {Message} from '../../model/Message';
 import {MessageSet} from '../../model/MessageSet';
 import {BackendResponse} from '../../model/BackendResponse';
-import {Subscription} from "rxjs/index";
+import {Subscription} from 'rxjs/index';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-messages-display',
@@ -16,7 +17,7 @@ export class MessagesDisplayComponent implements OnInit {
   private messageSets: MessageSet[];
   private messageSubscription: Subscription;
 
-  constructor(private userService: UserServiceService) {
+  constructor(private userService: UserServiceService, private socketService: SocketService, public sanitizer: DomSanitizer) {
 
   }
 
@@ -29,6 +30,13 @@ export class MessagesDisplayComponent implements OnInit {
       (next) => {
         console.log('messageSets changed due to new messages (probably)', next);
         this.messageSets = next;
+        if (typeof this.messageSets !== 'undefined' && this.messageSets.length > 0) {
+          let lastMessage = (this.messageSets[this.messageSets.length-1].messages[(this.messageSets[this.messageSets.length-1].messages.length-1)]);
+          console.log('last message:', lastMessage);
+          if (lastMessage.text.startsWith('!giphy')) {
+            console.log('hmmmmmmmmmmmmmmmmmmm!');
+          }
+        }
       }
     );
     this.userService.activeRoomChanges.subscribe(

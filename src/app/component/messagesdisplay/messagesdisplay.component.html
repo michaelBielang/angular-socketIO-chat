@@ -4,8 +4,16 @@
       <span class="badge">{{messageSet.author}}</span>
     </div>
     <div *ngFor="let message of messageSet.messages">
-      <span class="badge">{{message.date.getHours() + ":" + (message.date.getMinutes()<10?'0':'') +  message.date.getMinutes()}}</span><span class="badge">{{message.text}}</span>
+      <span class="badge">{{message.date.getHours() + ":" + (message.date.getMinutes()
+        <10? '0': '') + message.date.getMinutes()}}</span>
+          <span class="badge">{{message.text}}</span>
     </div>
+    <div *ngIf="messageSet.isMedia; then thenBlock else elseBlock"></div>
+    <ng-template #thenBlock>
+      <li>
+        <img src="{{ messageSet.mediaURL }}">
+      </li>
+    </ng-template>
+    <ng-template #elseBlock></ng-template>
   </div>
 </div>
-
