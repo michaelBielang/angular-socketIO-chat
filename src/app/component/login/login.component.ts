@@ -66,11 +66,15 @@ export class LoginComponent implements OnInit {
       if (obj.type === 'LoggedIn') {
         this.userService.currentUser = currentUser;
         this.router.navigate(['/chat-rooms']);
+      } else if (obj.type === 'LogginFailed') {
+        this.loading = false;
+        //TODO Andreas
+        // this.alertService.notifyUser();
+        alert('Wrong data');
       }
     });
 
     this.loading = true;
-
     this.socketService.sendEvent('Login', userInputInTemplateForm);
   }
 

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SocketService} from '../../services/socketService/socket-service.service';
 import {BackendResponse} from "../../model/BackendResponse";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -10,14 +11,11 @@ import {BackendResponse} from "../../model/BackendResponse";
 })
 export class RegisterComponent implements OnInit {
 
-  private readonly _messages: MessageEvent[] = [];
-  private success: boolean = false;
-
   registerForm: FormGroup;
   // messages received from the websocket
   // private _receiveEvents: BehaviorSubject<Object> = new BehaviorSubject<Object>(this._messages);
 
-  constructor(private formBuilder: FormBuilder, private socketService: SocketService) {
+  constructor(private formBuilder: FormBuilder, private socketService: SocketService, private router: Router) {
   }
 
   ngOnInit() {
@@ -50,17 +48,13 @@ export class RegisterComponent implements OnInit {
 
     this.socketService.messageListener.subscribe((event: string) => {
       const obj: BackendResponse = JSON.parse(event);
-      if (obj.type === 'UserRegistered') {
-        this.success = true;
+      console.log('type: ' + obj.type);
+      if (obj.type === 'SocketIdEvent') {
+        this.router.navigate(['/login']);
+        this.socketService.messageListener.unsubscribe();
       }
     });
 
     this.socketService.sendEvent('RegisterUser', userInputInTemplateForm);
-
-    if (this.success)
-      alert('SUCCESS!! :-)');
-    else {
-      alert('User already registered. Please chose another username');
-    }
   }
 }
