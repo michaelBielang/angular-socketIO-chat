@@ -31,7 +31,9 @@ export class Rooms {
     this.numberUnreadMessagesChanges = new BehaviorSubject(0);
     this.numberUnreadMessages = 0;
     this.OPListChanges = new BehaviorSubject(new Map<String, User>());
+    this.OPList = [];
     this.VoiceListChanges = new BehaviorSubject(new Map<String, User>());
+    this.VoiceList = [];
     this.lastAuthorChanges = new BehaviorSubject('nobody');
     this.lastMessageWasMedia = false;
   }

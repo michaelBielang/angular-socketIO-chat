@@ -1,0 +1,15 @@
+.jumbotron {
+  background-color: #eefaea;
+}
+.btn-primary {
+  background-color: #8adc6e;
+  border-color: #8adc6e;
+}
+.btn-link {
+  color: #8adc6e;
+}
+.logo {
+  margin: auto;
+  display: block;
+  margin-top: 20px;
+}

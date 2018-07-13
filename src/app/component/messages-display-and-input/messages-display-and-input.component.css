@@ -1,9 +1,8 @@
 .messageinput-container {
-  height: 500px;
-  background: lightgrey;
-}
-
-.input-field {
-  position: absolute;
-  bottom: 0;
+  height: 95vh;
+  width: 100%;
+  background: #eefaea;
+  border-bottom: 1px solid #bcebac;
+  border-right: 2px solid #bcebac;
+  border-top: 1px solid #bcebac;
 }

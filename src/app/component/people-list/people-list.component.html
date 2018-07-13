@@ -1,4 +1,6 @@
-People in this room:
-<ul>
-  <li *ngFor="let user of userList">username: {{ user.username }} | email: {{ user.email }}</li>
-</ul>
+<h3 class="headline-app">People in this room</h3>
+<div class="card" style="width: 20rem;">
+  <ul class="list-group list-group-flush">
+    <li *ngFor="let user of userList" class="list-group-item">username: {{ user.username }} | email: {{ user.email }}</li>
+  </ul>
+</div>
