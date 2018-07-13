@@ -24,7 +24,6 @@ export class PeopleListComponent implements OnInit {
 
   ngOnInit() {
     this.getPeople();
-    console.log('people-list subscribing to socket events');
     this.subscribeToSocketEvents();
   }
 
@@ -35,7 +34,6 @@ export class PeopleListComponent implements OnInit {
       // todo unsubscribe from the previous activeRoom subscriptions (HOW?!)
       this.userService.roomMap.get(room).userListChanges.subscribe(userList => {
         this.userList = userList;
-        console.log('people-list got ' + userList.length + ' users:',userList);
       });
       this.userService.roomMap.get(room).VoiceListChanges.subscribe(voiceList => {
         this.voiceList = voiceList;
@@ -49,48 +47,58 @@ export class PeopleListComponent implements OnInit {
   private subscribeToSocketEvents(): void {
     // RoomJoined: add the new person to the respective room's userList, if he's not already there
     this.socketService.messageListener.subscribe((message: string) => {
-      console.log('people list got event:',message);
       const obj: BackendResponse = JSON.parse(message);
-      if (obj.type !== 'RoomJoined') {
-        return;
-      }
-      console.log('in people-list; got RoomJoined message');
-
-      console.log('msg data', obj);
-      let tempUserList = this.userService.roomMap.get(obj.value.roomName).userList;
-      const newUserEmail = obj.value.email;
-      const newUserUsername = obj.value.name;
-      let userIncludedInUserList = false;
-      for (let user of tempUserList) {
-        if (user.email === newUserEmail) {
-          userIncludedInUserList = true;
-        }
-      }
-      if (! userIncludedInUserList) {
-        const newUser = new User(newUserEmail, newUserUsername);
-        tempUserList.push(newUser);
-        console.log('changing userList from ',this.userService.roomMap.get(obj.value.roomName).userList,' to ',tempUserList);
-        this.userService.roomMap.get(obj.value.roomName).userList = tempUserList;
-      } else {
-        console.log('the user ' + newUserEmail + ' is already in this userList:',tempUserList);
+      switch (obj.type) {
+        case 'RoomJoined':
+          this.addPersonToList(obj.value.roomName, 'userList', obj.value.email, obj.value.name);
+          break;
+        case 'RoomLeft':
+          this.removePersonFromList(obj.value.roomName, 'userList', obj.value.email);
+          break;
+        case 'OpGranted':
+          if (obj.value.op) {
+            this.addPersonToList(obj.value.roomName, 'OPList', obj.value.email);
+          } else {
+            this.removePersonFromList(obj.value.roomName, 'OPList', obj.value.email);
+          }
+          break;
+        case 'VoiceGranted':
+          if (obj.value.voice) {
+            this.addPersonToList(obj.value.roomName, 'VoiceList', obj.value.email);
+          } else {
+            this.removePersonFromList(obj.value.roomName, 'VoiceList', obj.value.email);
+          }
+          break;
+        default:
+          return;
       }
     });
-    // RoomLeft: remove the person from the respective room's userList, if he's there
-    /*
-    this.socketService.receiveEvents('RoomLeft').subscribe((message: MessageEvent) => {
-      console.log('in people-list; got RoomLeft message');
-      const obj: BackendResponse = JSON.parse(message.data);
-      console.log('msg data', obj);
-      let tempUserList = this.userService.roomMap.get(obj.value.roomName).userList;
-      const newUserEmail = obj.value.email;
-      for (let searchIndex = 0; searchIndex < tempUserList.length; searchIndex ++) {
-        if (tempUserList[searchIndex].email === newUserEmail) {
-         tempUserList.splice(searchIndex, 1);
-         break;
-        }
-      }
-      this.userService.roomMap.get(obj.value.roomName).userList = tempUserList;
-    });
-    */
   }
+
+    addPersonToList(roomName: string, listName: string, email: string, username= 'unknown') {
+      // add the person to the respective room's $listName list, if he's not already included
+      const tempList = this.userService.roomMap.get(roomName)[listName];
+      let userIncludedInList = false;
+      for (const user of tempList) {
+        if (user.email === email) {
+          userIncludedInList = true;
+        }
+      }
+      if (! userIncludedInList) {
+        const newUser = new User(email, username);
+        tempList.push(newUser);
+        this.userService.roomMap.get(roomName)[listName] = tempList;
+      }
+    }
+    removePersonFromList(roomName: string, listName: string, email: string) {
+      // remove the person from the respective room's list, if he's there
+      const tempList = this.userService.roomMap.get(roomName)[listName];
+      for (let searchIndex = 0; searchIndex < tempList.length; searchIndex ++) {
+        if (tempList[searchIndex].email === email) {
+          tempList.splice(searchIndex, 1);
+          break;
+        }
+      }
+      this.userService.roomMap.get(roomName)[listName] = tempList;
+    }
 }
