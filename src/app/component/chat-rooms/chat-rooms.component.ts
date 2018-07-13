@@ -3,6 +3,7 @@ import {SocketService} from "../../services/socketService/socket-service.service
 import {BackendResponse} from "../../model/BackendResponse";
 import {Message} from "../../model/Message";
 import {UserServiceService} from "../../services/userService/user-service.service";
+import {AlertService} from "../../services/alertService/alert-service.service";
 
 @Component({
   selector: 'app-chat-rooms',
@@ -11,17 +12,16 @@ import {UserServiceService} from "../../services/userService/user-service.servic
 })
 export class ChatRoomsComponent implements OnInit {
 
-  constructor(private socketService: SocketService, private userService: UserServiceService) {
+  constructor(private socketService: SocketService, private userService: UserServiceService, private alertService: AlertService) {
+    userService.interceptIncomingCommands();
+    alertService.injectUserService(userService);
   }
 
   ngOnInit() {
-    console.log('automatically joining room general');
     this.userService.joinRoom('Angst vor Vorträgen');
     this.userService.joinRoom('Vorführeffekt Fails');
     this.userService.joinRoom('general');
     this.userService.activeRoom = 'general';
-
-    console.log('currently active room:', this.userService.activeRoom);
 
     this.socketService.messageListener.subscribe((event: string) => {
       const obj: BackendResponse = JSON.parse(event);

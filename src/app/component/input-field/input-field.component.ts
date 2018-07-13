@@ -18,7 +18,6 @@ export class InputFieldComponent implements OnInit {
   public sendMessage(newInput: string) {
     // TODO auf Feedback vom Heidegger warten
     if (newInput && !this.shellCommand(newInput)) {
-      console.log('sending message');
       this.socketService.sendEvent('SendMessageToRoom', ({
         'roomName': this.userService.activeRoom,
         'message': newInput
@@ -26,6 +25,11 @@ export class InputFieldComponent implements OnInit {
     }
   }
 
+  /**
+   * TODO implement interception of wrong input
+   * @param {string} userInput
+   * @returns {boolean}
+   */
   public shellCommand(userInput: string): boolean {
     if (userInput.search('/invite ') !== -1) {
       return this.createMessage(userInput, 'invite');
@@ -53,6 +57,7 @@ export class InputFieldComponent implements OnInit {
     const relevantRoom: string = splittedUserInput[2];
 
     if (command === 'invite') {
+      console.log('send invite');
       this.sendShellCommandToSock('InviteToRoom', this.getInviteKick(relevantRoom, invitedUserEmail, true));
     } else if (command === 'kick') {
       this.sendShellCommandToSock('InviteToRoom', this.getInviteKick(relevantRoom, invitedUserEmail, false));
@@ -93,9 +98,7 @@ export class InputFieldComponent implements OnInit {
   }
 
   private sendShellCommandToSock(command: string, obj: any) {
-    console.log('received command: ' + command);
     //TODO frage wie man an den wert von command im Interface rankommt
-    console.log('obj: ' + (<ShellInterface>obj).roomName);
     this.socketService.sendEvent(command, obj);
   }
 
