@@ -66,9 +66,9 @@ export class InputFieldComponent implements OnInit {
     } else if (command === 'removeop') {
       this.sendShellCommandToSock('GrantOp', this.getOP(relevantRoom, invitedUserEmail, false));
     } else if (command === 'givevoice') {
-      this.sendShellCommandToSock('SetVoiceRoom', this.getVoice(relevantRoom, invitedUserEmail, true));
+      this.sendShellCommandToSock('GrantVoice', this.getVoice(relevantRoom, invitedUserEmail, true));
     } else if (command === 'removevoice') {
-      this.sendShellCommandToSock('SetVoiceRoom', this.getVoice(relevantRoom, invitedUserEmail, false));
+      this.sendShellCommandToSock('GrantVoice', this.getVoice(relevantRoom, invitedUserEmail, false));
     }
     return true;
   }
