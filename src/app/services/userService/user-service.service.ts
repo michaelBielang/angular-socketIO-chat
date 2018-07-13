@@ -49,6 +49,11 @@ export class UserServiceService {
   }
 
   joinRoom(roomName: string): void {
+    if (this._roomMap.has(roomName)) {
+      console.log('Already joined the room; ignoring duplicate join!');
+      this.showRoom(roomName);
+      return;
+    }
     this._roomMap.set(roomName, new Rooms());
     // todo: decide if we want to alert subscribers NOW or AFTER FEEDBACK from the server
     this.roomMapChanges.next(this.roomMap);
