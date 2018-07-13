@@ -5,23 +5,23 @@ import {BehaviorSubject} from 'rxjs/index';
 
 export class Rooms {
 
-  private _userList: User[];
-  public userListChanges: BehaviorSubject<User[]>;
+  private _userList: Set<string>;
+  public userListChanges: BehaviorSubject<Set<string>>;
   private _messageSets: MessageSet[];
   public messageSetsChanges: BehaviorSubject<MessageSet[]>;
   private _numberUnreadMessages: number;
   public numberUnreadMessagesChanges: BehaviorSubject<number>;
-  private _OPList: Map<String, User>;
-  public OPListChanges: BehaviorSubject<Map<String, User>>;
-  private _VoiceList: Map<String, User>;
-  public VoiceListChanges: BehaviorSubject<Map<String, User>>;
+  private _OPList: Set<string>;
+  public OPListChanges: BehaviorSubject<Set<string>>;
+  private _VoiceList: Set<string>;
+  public VoiceListChanges: BehaviorSubject<Set<string>>;
   private _lastAuthor: string;
   public lastAuthorChanges: BehaviorSubject<string>;
   private lastMessageWasMedia: boolean;
 
   constructor() {
-    this.userListChanges = new BehaviorSubject([]);
-    this.userList = [];
+    this.userListChanges = new BehaviorSubject(new Set());
+    this.userList = new Set();
     this.messageSetsChanges = new BehaviorSubject(
       [(new MessageSet(
         [new Message('Welcome!', 'System', new Date())
@@ -30,10 +30,10 @@ export class Rooms {
     this.messageSets = [];
     this.numberUnreadMessagesChanges = new BehaviorSubject(0);
     this.numberUnreadMessages = 0;
-    this.OPListChanges = new BehaviorSubject(new Map<String, User>());
-    this.OPList = [];
-    this.VoiceListChanges = new BehaviorSubject(new Map<String, User>());
-    this.VoiceList = [];
+    this.OPListChanges = new BehaviorSubject(new Set())
+    this.OPList = new Set();
+    this.VoiceListChanges = new BehaviorSubject(new Set());
+    this.VoiceList = new Set();
     this.lastAuthorChanges = new BehaviorSubject('nobody');
     this.lastMessageWasMedia = false;
   }
@@ -81,15 +81,15 @@ export class Rooms {
     }
   }
 
-  hasOP(roomName: String): boolean {
+  hasOP(roomName: string): boolean {
     return this._OPList.has(roomName);
   }
 
-  hasVoice(roomName: String): boolean {
+  hasVoice(roomName: string): boolean {
     return this._VoiceList.has(roomName);
   }
 
-  get userList(): User[] {
+  get userList(): Set<string> {
     return this._userList;
   }
 
@@ -101,11 +101,11 @@ export class Rooms {
     return this._numberUnreadMessages;
   }
 
-  get OPList(): Map<String, User> {
+  get OPList(): Set<string> {
     return this._OPList;
   }
 
-  get VoiceList(): Map<String, User> {
+  get VoiceList(): Set<string> {
     return this._VoiceList;
   }
 
@@ -114,7 +114,7 @@ export class Rooms {
   }
 
 
-  set userList(value: User[]) {
+  set userList(value: Set<string>) {
     this._userList = value;
     this.userListChanges.next(this.userList);
   }
@@ -129,12 +129,12 @@ export class Rooms {
     this.numberUnreadMessagesChanges.next(this.numberUnreadMessages);
   }
 
-  set OPList(value: Map<String, User>) {
+  set OPList(value: Set<string>) {
     this._OPList = value;
     this.OPListChanges.next(this.OPList);
   }
 
-  set VoiceList(value: Map<String, User>) {
+  set VoiceList(value: Set<string>) {
     this._VoiceList = value;
     this.VoiceListChanges.next(this.VoiceList);
   }
