@@ -14,9 +14,9 @@ import {Message} from '../../model/Message';
 export class PeopleListComponent implements OnInit {
 
   activeRoom: string;
-  userList: User[];
-  voiceList: Map<String, User>;
-  opList: Map<String, User>;
+  userList: Set<string>;
+  voiceList: Set<string>;
+  opList: Set<string>;
 
   constructor(private socketService: SocketService, private userService: UserServiceService) {
     // this.rooms = userService.roomMap.keys();
@@ -76,29 +76,9 @@ export class PeopleListComponent implements OnInit {
   }
 
     addPersonToList(roomName: string, listName: string, email: string, username= 'unknown') {
-      // add the person to the respective room's $listName list, if he's not already included
-      const tempList = this.userService.roomMap.get(roomName)[listName];
-      let userIncludedInList = false;
-      for (const user of tempList) {
-        if (user.email === email) {
-          userIncludedInList = true;
-        }
-      }
-      if (! userIncludedInList) {
-        const newUser = new User(email, username);
-        tempList.push(newUser);
-        this.userService.roomMap.get(roomName)[listName] = tempList;
-      }
+      this.userService.roomMap.get(roomName)[listName].add(email);
     }
     removePersonFromList(roomName: string, listName: string, email: string) {
-      // remove the person from the respective room's list, if he's there
-      const tempList = this.userService.roomMap.get(roomName)[listName];
-      for (let searchIndex = 0; searchIndex < tempList.length; searchIndex ++) {
-        if (tempList[searchIndex].email === email) {
-          tempList.splice(searchIndex, 1);
-          break;
-        }
-      }
-      this.userService.roomMap.get(roomName)[listName] = tempList;
+      this.userService.roomMap.get(roomName)[listName].delete(email);
     }
 }

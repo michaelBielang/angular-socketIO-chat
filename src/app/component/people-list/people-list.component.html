@@ -1,6 +1,15 @@
 <h3 class="headline-app">People in this room</h3>
 <div class="card" style="width: 20rem;">
   <ul class="list-group list-group-flush">
-    <li *ngFor="let user of userList" class="list-group-item">username: {{ user.username }} | email: {{ user.email }}</li>
+    <li *ngFor="let user of userList" class="list-group-item">
+      <div>{{ user }}
+        &nbsp;
+        <span *ngIf="voiceList.has(user); else voiceElseBlock"><i class="fa fa-microphone"></i></span>
+        <ng-template #voiceElseBlock><i class="fa fa-microphone-slash"></i></ng-template>
+        &nbsp;
+        <span *ngIf="opList.has(user); else opElseBlock"><i class="fa fa-user-circle-o"></i></span>
+        <ng-template #opElseBlock><i class="fa fa-user"></i></ng-template>
+      </div>
+    </li>
   </ul>
 </div>
