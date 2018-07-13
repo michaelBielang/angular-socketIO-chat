@@ -31,6 +31,14 @@ export class RoomListComponent implements OnInit {
     });
   }
 
+  joinRoom(room): void {
+    if (room.length < 1) {
+      console.log('Cannot join the room with no name!');
+      return;
+    }
+    this.userService.joinRoom(room);
+  }
+
   showRoom(room: string): void {
     this.userService.showRoom(room);
   }

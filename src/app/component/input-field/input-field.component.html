@@ -1,6 +1,6 @@
   <div class="input-group input-field">
-    <input #newInput class="form-control" (keyup.enter)="sendMessage(newInput.value)">
+    <input #newInput class="form-control" (keyup.enter)="sendMessage(newInput.value); newInput.value=''">
     <span class="input-group-btn">
-      <button class="btn btn-primary v5-vh" (click)="sendMessage(newInput.value)">Send</button>
+      <button class="btn btn-primary v5-vh" (click)="sendMessage(newInput.value); newInput.value=''">Send</button>
     </span>
   </div>

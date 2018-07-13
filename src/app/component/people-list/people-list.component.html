@@ -2,13 +2,36 @@
 <div class="card" style="width: 20rem;">
   <ul class="list-group list-group-flush">
     <li *ngFor="let user of userList" class="list-group-item">
-      <div>{{ user }}
-        &nbsp;
-        <span *ngIf="voiceList.has(user); else voiceElseBlock"><i class="fa fa-microphone"></i></span>
-        <ng-template #voiceElseBlock><i class="fa fa-microphone-slash"></i></ng-template>
-        &nbsp;
-        <span *ngIf="opList.has(user); else opElseBlock"><i class="fa fa-user-circle-o"></i></span>
-        <ng-template #opElseBlock><i class="fa fa-user"></i></ng-template>
+      <div class="row">
+        <div style="padding: 4px 8px 8px 4px;">{{ user }}
+          &nbsp;
+          <span *ngIf="voiceList.has(user); else voiceElseBlock"><i class="fa fa-microphone"></i></span>
+          <ng-template #voiceElseBlock><i class="fa fa-microphone-slash"></i></ng-template>
+          &nbsp;
+          <span *ngIf="opList.has(user); else opElseBlock"><i class="fa fa-user-circle-o"></i></span>
+          <ng-template #opElseBlock><i class="fa fa-user"></i></ng-template>
+        </div>
+        <div class="dropdown col">
+          <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown">Actions
+          </button>
+          <div class="dropdown-menu">
+            <!-- If currentUser is mod !-->
+            <div *ngIf="opList.has(currentUser)">
+              <!-- If user has voice "revoke voice"-->
+              <!-- else "give voice"-->
+              <span *ngIf="voiceList.has(user); else voiceActionElseBlock"><button class="dropdown-item" type="button">Revoke Voice</button></span>
+              <ng-template #voiceActionElseBlock><button class="dropdown-item" type="button">Give Voice</button></ng-template>
+              <!-- If user has op "revoke op"-->
+              <!-- else "make op"-->
+              <span *ngIf="opList.has(user); else opActionElseBlock"><button class="dropdown-item" type="button">Revoke OP</button></span>
+              <ng-template #opActionElseBlock><button class="dropdown-item" type="button">Give OP</button></ng-template>
+            </div>
+            <!-- EndIf currentUser is mod !-->
+            <!-- for room in rooms: invite !-->
+              <button class="dropdown-item" type="button">Invite user to roomNameHere</button>
+            <!-- EndFor !-->
+          </div>
+        </div>
       </div>
     </li>
   </ul>

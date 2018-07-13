@@ -17,9 +17,10 @@ export class PeopleListComponent implements OnInit {
   userList: Set<string>;
   voiceList: Set<string>;
   opList: Set<string>;
+  currentUser: string;
 
   constructor(private socketService: SocketService, private userService: UserServiceService) {
-    // this.rooms = userService.roomMap.keys();
+    this.currentUser = this.userService.currentUser.email + '';
   }
 
   ngOnInit() {
