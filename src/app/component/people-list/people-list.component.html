@@ -50,9 +50,11 @@
 
               <!-- Kick User !-->
             <!-- EndIf currentUser is mod !-->
+            <button *ngFor="let room of invitableRooms(user)" class="dropdown-item" type="button"
+                    (click)="this.actionService.invite(user, room)"
+            >Invite user to {{room}}</button>
 
             <!-- for room in invitableRooms (if the user isn't already in the corresponding userList): invite !-->
-              <button class="dropdown-item" type="button">Invite user to roomNameHere</button>
             <!-- EndFor !-->
           </div>
         </div>

@@ -84,17 +84,16 @@ export class PeopleListComponent implements OnInit {
   removePersonFromList(roomName: string, listName: string, email: string) {
     this.userService.roomMap.get(roomName)[listName].delete(email);
   }
-  grantVoice(user) {
 
-  }
-  revokeVoice(user) {
-
-  }
-  grantOP(user) {
-
-  }
-  revokeOP(user) {
-
+  invitableRooms(userEmail: string): string[] {
+    let knownRoomsWithoutUser = [];
+    this.userService.roomMap.forEach(function(roomObj, roomName) {
+      console.log(roomName);
+      if (! roomObj.userList.has(userEmail)) {
+        knownRoomsWithoutUser.push(roomName)
+      }
+    });
+    return knownRoomsWithoutUser;
   }
 
 
