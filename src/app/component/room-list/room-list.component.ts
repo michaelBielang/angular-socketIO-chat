@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SocketService } from '../../services/socketService/socket-service.service';
 import { UserServiceService } from '../../services/userService/user-service.service';
 import {Rooms} from '../../model/Rooms';
+import {ActionService} from "../../services/actionService/action.service";
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
@@ -13,7 +14,7 @@ export class RoomListComponent implements OnInit {
   rooms: Map<String, Rooms>;
   roomList: any[];
 
-  constructor(private socketService: SocketService, private userService: UserServiceService) {
+  constructor(private socketService: SocketService, private userService: UserServiceService, private actionService: ActionService) {
     // this.rooms = userService.roomMap.keys();
   }
 
@@ -41,5 +42,16 @@ export class RoomListComponent implements OnInit {
 
   showRoom(room: string): void {
     this.userService.showRoom(room);
+  }
+
+  leaveRoom(event, room) {
+    event.stopImmediatePropagation();
+    // this.userService.leaveRoom(room);
+    this.rooms.delete(room);
+    this.roomList = Array.from(this.rooms.keys());
+    this.socketService.sendEvent('LeaveRoom', {
+      'roomName': room
+    });
+
   }
 }

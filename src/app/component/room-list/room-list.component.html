@@ -4,9 +4,12 @@
 <ul class="list-group pointer">
   <li *ngFor="let room of roomList" (click)="showRoom(room)" [ngClass]="{'active': room===activeRoom}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
     {{ room }}
+
     <!-- todo implement this badge to show unread messages!
         <span class="badge badge-primary badge-pill">1</span>
         !-->
+
+    <span style="color:red" (click)="leaveRoom($event, room)">Leave</span>
 
   </li>
 
