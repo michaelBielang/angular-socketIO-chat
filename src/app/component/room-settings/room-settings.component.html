@@ -1,0 +1,13 @@
+<div class="fixed container">
+
+<h5>Room Settings</h5>
+  <span></span>
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="inviteCheck" (ngModelChange)="requireInvite=$event; showIt($event)" [ngModel]="requireInvite">
+    <label class="form-check-label" for="inviteCheck">Require Invite</label>
+  </div>
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="voiceCheck" (ngModelChange)="requireVoice=$event; showIt($event)" [ngModel]="requireVoice">
+    <label class="form-check-label" for="voiceCheck">Require Voice</label>
+  </div>
+</div><br>
