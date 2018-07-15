@@ -68,6 +68,7 @@ export class UserServiceService {
       }
       // todo wait for 5 seconds before returning an error? @Andreas
     });
+  }
 
   leaveRoom(roomName: string): void {
     // todo: instead of deleting (because we want to keep it visible), change an attribute?
