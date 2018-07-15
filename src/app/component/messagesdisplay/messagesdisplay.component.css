@@ -3,3 +3,57 @@ ul {
   margin: 0;
   padding: 0;
 }
+
+.talk-bubble {
+	margin: 5px 40px 10px 40px;
+  display: inline-block;
+  position: relative;
+	width: 400px;
+	height: auto;
+  background-color:#82e182;
+  min-height: 100px;
+  padding: 10px 10px;
+}
+
+.round{
+  border-radius: 30px;
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+
+}
+.talktext{
+  padding: 1em;
+	text-align: left;
+  line-height: 1.5em;
+}
+.tri-right.border.left-in:before {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -40px;
+	right: auto;
+  top: 30px;
+	bottom: auto;
+	border: 20px solid #ebdcac;
+}
+.tri-right.left-in:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -20px;
+	right: auto;
+  top: 38px;
+	bottom: auto;
+	border: 12px solid;
+	border-color: #82e182 #82e182 transparent transparent;
+}
+
+.author {
+  margin-top: 10px;
+  padding-left: 50px;
+  font-size: 1em;
+  margin-bottom: -40px;
+
+}
