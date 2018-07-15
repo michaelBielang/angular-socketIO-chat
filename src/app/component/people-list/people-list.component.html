@@ -17,18 +17,44 @@
           <div class="dropdown-menu">
             <!-- If currentUser is mod !-->
             <div *ngIf="opList.has(currentUser)">
+              <!-- kick -->
+              <button class="dropdown-item" type="button"
+                      (click)="this.actionService.kick(user, activeRoom);">
+                Kick
+              </button>
               <!-- If user has voice "revoke voice"-->
               <!-- else "give voice"-->
-              <span *ngIf="voiceList.has(user); else voiceActionElseBlock"><button class="dropdown-item" type="button">Revoke Voice</button></span>
-              <ng-template #voiceActionElseBlock><button class="dropdown-item" type="button">Give Voice</button></ng-template>
+              <span *ngIf="voiceList.has(user); else voiceActionElseBlock">
+                <button class="dropdown-item" type="button"
+                        (click)="this.actionService.removeVoice(user, activeRoom);">
+                  Revoke Voice
+                </button></span>
+              <ng-template #voiceActionElseBlock>
+                <button class="dropdown-item" type="button"
+                        (click)="this.actionService.grantVoice(user, activeRoom);">
+                  Give Voice
+                </button></ng-template>
               <!-- If user has op "revoke op"-->
               <!-- else "make op"-->
-              <span *ngIf="opList.has(user); else opActionElseBlock"><button class="dropdown-item" type="button">Revoke OP</button></span>
-              <ng-template #opActionElseBlock><button class="dropdown-item" type="button">Give OP</button></ng-template>
+              <span *ngIf="opList.has(user); else opActionElseBlock">
+                <button class="dropdown-item" type="button"
+                        (click)="this.actionService.removeOp(user, activeRoom);">
+                  Revoke OP
+                </button></span>
+              <ng-template #opActionElseBlock>
+                <button class="dropdown-item" type="button"
+                        (click)="this.actionService.grantOp(user, activeRoom);">
+                  Give OP
+                </button></ng-template>
             </div>
+
+              <!-- Kick User !-->
             <!-- EndIf currentUser is mod !-->
-            <!-- for room in rooms: invite !-->
-              <button class="dropdown-item" type="button">Invite user to roomNameHere</button>
+            <button *ngFor="let room of invitableRooms(user)" class="dropdown-item" type="button"
+                    (click)="this.actionService.invite(user, room)"
+            >Invite user to {{room}}</button>
+
+            <!-- for room in invitableRooms (if the user isn't already in the corresponding userList): invite !-->
             <!-- EndFor !-->
           </div>
         </div>

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {SocketService} from '../../services/socketService/socket-service.service';
-import {UserServiceService} from '../../services/userService/user-service.service';
+import {ActionService} from '../../services/actionService/action.service';
+import {SocketService} from "../../services/socketService/socket-service.service";
+import {UserServiceService} from "../../services/userService/user-service.service";
 
 @Component({
   selector: 'app-input-field',
@@ -9,10 +10,7 @@ import {UserServiceService} from '../../services/userService/user-service.servic
 })
 export class InputFieldComponent implements OnInit {
 
-
-  readonly defaultRoom = 'general';
-
-  constructor(public socketService: SocketService, public userService: UserServiceService) {
+  constructor(private actionService: ActionService, private socketService: SocketService, private userService: UserServiceService) {
   }
 
   public sendMessage(newInput: string) {
@@ -35,17 +33,13 @@ export class InputFieldComponent implements OnInit {
       return this.createMessage(userInput, 'invite');
     } else if (userInput.search('/kick ') !== -1) {
       return this.createMessage(userInput, 'kick');
-    }
-    else if (userInput.search('/giveop ') !== -1) {
+    } else if (userInput.search('/giveop ') !== -1) {
       return this.createMessage(userInput, 'giveop');
-    }
-    else if (userInput.search('/removeop ') !== -1) {
+    } else if (userInput.search('/removeop ') !== -1) {
       return this.createMessage(userInput, 'removeop');
-    }
-    else if (userInput.search('/givevoice ') !== -1) {
+    } else if (userInput.search('/givevoice ') !== -1) {
       return this.createMessage(userInput, 'givevoice');
-    }
-    else if (userInput.search('/removevoice ') !== -1) {
+    } else if (userInput.search('/removevoice ') !== -1) {
       return this.createMessage(userInput, 'removevoice');
     }
     return false;
@@ -58,52 +52,22 @@ export class InputFieldComponent implements OnInit {
 
     if (command === 'invite') {
       console.log('send invite');
-      this.sendShellCommandToSock('InviteToRoom', this.getInviteKick(relevantRoom, invitedUserEmail, true));
+      this.actionService.invite(invitedUserEmail, relevantRoom);
     } else if (command === 'kick') {
-      this.sendShellCommandToSock('InviteToRoom', this.getInviteKick(relevantRoom, invitedUserEmail, false));
+      this.actionService.kick(invitedUserEmail, relevantRoom);
     } else if (command === 'giveop') {
-      this.sendShellCommandToSock('GrantOp', this.getOP(relevantRoom, invitedUserEmail, true));
+      this.actionService.grantOp(invitedUserEmail, relevantRoom);
     } else if (command === 'removeop') {
-      this.sendShellCommandToSock('GrantOp', this.getOP(relevantRoom, invitedUserEmail, false));
+      this.actionService.removeOp(invitedUserEmail, relevantRoom);
     } else if (command === 'givevoice') {
-      this.sendShellCommandToSock('GrantVoice', this.getVoice(relevantRoom, invitedUserEmail, true));
+      this.actionService.grantVoice(invitedUserEmail, relevantRoom);
     } else if (command === 'removevoice') {
-      this.sendShellCommandToSock('GrantVoice', this.getVoice(relevantRoom, invitedUserEmail, false));
+      this.actionService.removeVoice(invitedUserEmail, relevantRoom);
     }
     return true;
   }
-
-  private getInviteKick(roomname: String, invitedUserEmail: String, invite: boolean): any {
-    return {
-      roomName: roomname,
-      email: invitedUserEmail,
-      invite: invite
-    };
-  }
-
-  private getVoice(roomname: String, invitedUserEmail: String, voice: boolean): any {
-    return {
-      roomName: roomname,
-      email: invitedUserEmail,
-      voice: voice
-    };
-  }
-
-  private getOP(roomname: String, invitedUserEmail: String, op: boolean): any {
-    return {
-      roomName: roomname,
-      email: invitedUserEmail,
-      op: op
-    };
-  }
-
-  private sendShellCommandToSock(command: string, obj: any) {
-    //TODO frage wie man an den wert von command im Interface rankommt
-    this.socketService.sendEvent(command, obj);
-  }
-
   ngOnInit() {
 
   }
-
 }
+
