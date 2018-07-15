@@ -50,28 +50,16 @@ export class ActionService {
       voice: false
     });
   }
-  public setRoomInviteRequired(roomName: string, inviteRequired: boolean) {
+  public setRoomInviteSetting(roomName: string, inviteRequired: boolean) {
     this.socketService.sendEvent('SetInviteRoom', {
       roomName: roomName,
-      inviteRequired: true
+      inviteRequired: inviteRequired
     });
   }
-  public setRoomInviteNormal(roomName: string, inviteRequired: boolean) {
-    this.socketService.sendEvent('SetInviteRoom', {
-      roomName: roomName,
-      inviteRequired: false
-    });
-  }
-  public setRoomVoiceRequired(roomName: string, voiceRequired: boolean) {
+  public setRoomVoiceSetting(roomName: string, voiceRequired: boolean) {
     this.socketService.sendEvent('SetVoiceRoom', {
       roomName: roomName,
-      voice: true
-    });
-  }
-  public setRoomVoiceNormal(roomName: string, voiceRequired: boolean) {
-    this.socketService.sendEvent('SetVoiceRoom', {
-      roomName: roomName,
-      voice: false
+      voice: voiceRequired
     });
   }
 

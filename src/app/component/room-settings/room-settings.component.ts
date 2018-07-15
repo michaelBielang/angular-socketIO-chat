@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ActionService} from '../../services/actionService/action.service';
+import {UserServiceService} from "../../services/userService/user-service.service";
 
 @Component({
   selector: 'app-room-settings',
@@ -9,7 +11,7 @@ export class RoomSettingsComponent implements OnInit {
   public requireVoice = true;
   public requireInvite = false;
 
-  constructor() { }
+  constructor(public actionService: ActionService, public userService: UserServiceService) { }
 
   showIt(value) {
     console.log('showIt called');
