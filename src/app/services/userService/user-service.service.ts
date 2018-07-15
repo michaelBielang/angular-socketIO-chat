@@ -60,7 +60,14 @@ export class UserServiceService {
     this.socketService.sendEvent('JoinRoom', {
       'roomName': roomName
     });
-    this.showRoom(roomName);
+    // wait for 'RoomJoined'
+    this.socketService.messageListener.subscribe((message: string) => {
+      const obj: BackendResponse = JSON.parse(message);
+      if (obj.type === 'RoomJoined' && obj.value.email === this.currentUser && obj.value.roomName === roomName) {
+        this.showRoom(roomName);
+      }
+      // todo wait for 5 seconds before returning an error? @Andreas
+    });
   }
 
   leaveRoom(roomName: string): void {
