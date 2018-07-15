@@ -17,6 +17,11 @@
           <div class="dropdown-menu">
             <!-- If currentUser is mod !-->
             <div *ngIf="opList.has(currentUser)">
+              <!-- kick -->
+              <button class="dropdown-item" type="button"
+                      (click)="this.actionService.kick(user, activeRoom);">
+                Kick
+              </button>
               <!-- If user has voice "revoke voice"-->
               <!-- else "give voice"-->
               <span *ngIf="voiceList.has(user); else voiceActionElseBlock">
@@ -42,8 +47,11 @@
                   Give OP
                 </button></ng-template>
             </div>
+
+              <!-- Kick User !-->
             <!-- EndIf currentUser is mod !-->
-            <!-- for room in rooms: invite !-->
+
+            <!-- for room in invitableRooms (if the user isn't already in the corresponding userList): invite !-->
               <button class="dropdown-item" type="button">Invite user to roomNameHere</button>
             <!-- EndFor !-->
           </div>
