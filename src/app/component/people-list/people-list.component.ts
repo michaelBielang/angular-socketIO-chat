@@ -5,6 +5,7 @@ import {UserServiceService} from '../../services/userService/user-service.servic
 import {User} from '../../model/User';
 import {BackendResponse} from '../../model/BackendResponse';
 import {Message} from '../../model/Message';
+import {ActionService} from '../../services/actionService/action.service';
 
 @Component({
   selector: 'app-people-list',
@@ -19,7 +20,7 @@ export class PeopleListComponent implements OnInit {
   opList: Set<string>;
   currentUser: string;
 
-  constructor(private socketService: SocketService, private userService: UserServiceService) {
+  constructor(private socketService: SocketService, private userService: UserServiceService, private actionService: ActionService) {
     this.currentUser = this.userService.currentUser.email + '';
   }
 
@@ -75,11 +76,26 @@ export class PeopleListComponent implements OnInit {
       }
     });
   }
+  // only use this method to process server events, not to change permissions
+  addPersonToList(roomName: string, listName: string, email: string, username= 'unknown') {
+    this.userService.roomMap.get(roomName)[listName].add(email);
+  }
+  // only use this method to process server events, not to change permissions
+  removePersonFromList(roomName: string, listName: string, email: string) {
+    this.userService.roomMap.get(roomName)[listName].delete(email);
+  }
+  grantVoice(user) {
 
-    addPersonToList(roomName: string, listName: string, email: string, username= 'unknown') {
-      this.userService.roomMap.get(roomName)[listName].add(email);
-    }
-    removePersonFromList(roomName: string, listName: string, email: string) {
-      this.userService.roomMap.get(roomName)[listName].delete(email);
-    }
+  }
+  revokeVoice(user) {
+
+  }
+  grantOP(user) {
+
+  }
+  revokeOP(user) {
+
+  }
+
+
 }
