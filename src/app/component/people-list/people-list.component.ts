@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
 import { Rooms } from '../../model/Rooms';
 import { SocketService } from '../../services/socketService/socket-service.service';
@@ -8,13 +7,6 @@ import { BackendResponse } from '../../model/BackendResponse';
 import { Message } from '../../model/Message';
 import { ActionService } from '../../services/actionService/action.service';
 import {Router} from '@angular/router';
-=======
-import {Component, OnInit} from '@angular/core';
-import {SocketService} from '../../services/socketService/socket-service.service';
-import {UserServiceService} from '../../services/userService/user-service.service';
-import {BackendResponse} from '../../model/BackendResponse';
-import {ActionService} from '../../services/actionService/action.service';
->>>>>>> 9f4fae5aa031547af8397c5a5e4ce99b9d53dba0
 
 @Component({
   selector: 'app-people-list',
@@ -28,16 +20,12 @@ export class PeopleListComponent implements OnInit {
   opList: Set<string>;
   currentUser: string;
 
-<<<<<<< HEAD
   constructor(
     private router: Router,
     private socketService: SocketService,
     private userService: UserServiceService,
     private actionService: ActionService
   ) {
-=======
-  constructor(private socketService: SocketService, private userService: UserServiceService) {
->>>>>>> 9f4fae5aa031547af8397c5a5e4ce99b9d53dba0
     this.currentUser = this.userService.currentUser.email + '';
   }
 
@@ -71,16 +59,7 @@ export class PeopleListComponent implements OnInit {
       const obj: BackendResponse = JSON.parse(message);
       switch (obj.type) {
         case 'RoomJoined':
-<<<<<<< HEAD
-          this.addPersonToList(
-            obj.value.roomName,
-            'userList',
-            obj.value.email,
-            obj.value.name
-          );
-=======
           this.addPersonToList(obj.value.roomName, 'userList', obj.value.email);
->>>>>>> 9f4fae5aa031547af8397c5a5e4ce99b9d53dba0
           break;
         case 'RoomLeft':
           this.removePersonFromList(
@@ -122,16 +101,7 @@ export class PeopleListComponent implements OnInit {
   }
 
   // only use this method to process server events, not to change permissions
-<<<<<<< HEAD
-  addPersonToList(
-    roomName: string,
-    listName: string,
-    email: string,
-    username = 'unknown'
-  ) {
-=======
   addPersonToList(roomName: string, listName: string, email: string) {
->>>>>>> 9f4fae5aa031547af8397c5a5e4ce99b9d53dba0
     this.userService.roomMap.get(roomName)[listName].add(email);
   }
 
@@ -142,11 +112,7 @@ export class PeopleListComponent implements OnInit {
 
   invitableRooms(userEmail: string): string[] {
     const knownRoomsWithoutUser = [];
-<<<<<<< HEAD
-    this.userService.roomMap.forEach(function(roomObj, roomName) {
-=======
     this.userService.roomMap.forEach(function (roomObj, roomName) {
->>>>>>> 9f4fae5aa031547af8397c5a5e4ce99b9d53dba0
       if (!roomObj.userList.has(userEmail)) {
         knownRoomsWithoutUser.push(roomName);
       }
