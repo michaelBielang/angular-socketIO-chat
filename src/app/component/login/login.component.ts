@@ -60,7 +60,6 @@ export class LoginComponent implements OnInit {
       email: email,
     };
 
-    // TODO (optional: AlertService)
     this.socketService.messageListener.subscribe((event: string) => {
       const obj: BackendResponse = JSON.parse(event);
       if (obj.type === 'LoggedIn') {
@@ -68,8 +67,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/chat-rooms']);
       } else if (obj.type === 'LogginFailed') {
         this.loading = false;
-        //TODO Andreas
-        // this.alertService.notifyUser();
         alert('Wrong data');
       }
     });

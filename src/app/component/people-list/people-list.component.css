@@ -4,3 +4,12 @@
 .pointer {
   cursor: pointer;
 }
+
+.btn-primary {
+  border-color: #6ddc6d;
+  background-color: #82e182;
+}
+.btn-primary:active {
+  border-color: #6ddc6d;
+  background-color: #82e182;
+}
