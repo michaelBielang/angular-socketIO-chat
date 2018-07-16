@@ -51,7 +51,6 @@ export class InputFieldComponent implements OnInit {
     const relevantRoom: string = splittedUserInput[2];
 
     if (command === 'invite') {
-      console.log('send invite');
       this.actionService.invite(invitedUserEmail, relevantRoom);
     } else if (command === 'kick') {
       this.actionService.kick(invitedUserEmail, relevantRoom);

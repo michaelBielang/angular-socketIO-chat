@@ -32,7 +32,6 @@ export class SettingsComponent implements OnInit {
     if (this.settingsForm.invalid) {
       return;
     }
-    console.log('submit');
 
     const email = this.settingsForm.controls['email'].value;
     const oldPassword = this.settingsForm.controls['oldPassword'].value;

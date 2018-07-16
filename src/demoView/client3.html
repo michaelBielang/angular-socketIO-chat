@@ -12,7 +12,6 @@
     }
 
   connection.onopen = function () {
-    console.log('conn open!')
     let event = {
       type: 'Login',
       value: loginData
@@ -28,12 +27,10 @@
 
   // Log errors
   connection.onerror = function (error) {
-    console.log('error!')
     console.log('WebSocket Error ' + JSON.stringify(error))
   }
   // Log messages from the server
   connection.onmessage = function (e) {
-    console.log('message!')
     let o = JSON.parse(e.data)
     console.log('Server', o)
   }

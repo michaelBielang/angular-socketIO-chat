@@ -48,7 +48,6 @@ export class RegisterComponent implements OnInit {
 
     this.socketService.messageListener.subscribe((event: string) => {
       const obj: BackendResponse = JSON.parse(event);
-      console.log('type: ' + obj.type);
       if (obj.type === 'SocketIdEvent') {
         this.router.navigate(['/login']);
         this.socketService.messageListener.unsubscribe();

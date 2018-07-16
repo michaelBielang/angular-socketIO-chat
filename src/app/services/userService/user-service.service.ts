@@ -35,13 +35,10 @@ export class UserServiceService {
       const inviteOPVoice: InviteOPVoice = backendResponse.value;
       if (inviteOPVoice.email === this._currentUser.email) {
         if (backendResponse.type === 'InviteToRoom') {
-          console.log('got invite');
           this.alertService.notifyUser('InviteToRoom', inviteOPVoice.roomName);
         } else if (backendResponse.type === 'GrantVoice') {
-          console.log('got voice');
           this.alertService.notifyUser('GrantVoice', inviteOPVoice.roomName);
         } else if (backendResponse.type === 'GrantOp') {
-          console.log('got grantOP');
           this.alertService.notifyUser('GrantOp', inviteOPVoice.roomName);
         }
       }
