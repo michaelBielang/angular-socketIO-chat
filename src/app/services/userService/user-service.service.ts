@@ -48,12 +48,20 @@ export class UserServiceService {
     });
   }
 
+  /**
+   * This function handles the function to join other rooms within this service.
+   * @param {string} roomName
+   */
   joinRoom(roomName: string): void {
+
+    //check if user has already joined the room
     if (this._roomMap.has(roomName)) {
       console.log('Already joined the room; ignoring duplicate join!');
       this.showRoom(roomName);
       return;
     }
+
+
     this._roomMap.set(roomName, new Rooms());
     // todo: decide if we want to alert subscribers NOW or AFTER FEEDBACK from the server
     this.roomMapChanges.next(this.roomMap);
