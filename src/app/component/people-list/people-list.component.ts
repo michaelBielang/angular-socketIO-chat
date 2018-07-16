@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Rooms } from '../../model/Rooms';
-import { SocketService } from '../../services/socketService/socket-service.service';
-import { UserServiceService } from '../../services/userService/user-service.service';
-import { User } from '../../model/User';
-import { BackendResponse } from '../../model/BackendResponse';
-import { Message } from '../../model/Message';
-import { ActionService } from '../../services/actionService/action.service';
+import {Component, OnInit} from '@angular/core';
+import {SocketService} from '../../services/socketService/socket-service.service';
+import {UserServiceService} from '../../services/userService/user-service.service';
+import {BackendResponse} from '../../model/BackendResponse';
+import {ActionService} from '../../services/actionService/action.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -45,8 +42,8 @@ export class PeopleListComponent implements OnInit {
       this.userService.roomMap
         .get(room)
         .VoiceListChanges.subscribe(voiceList => {
-          this.voiceList = voiceList;
-        });
+        this.voiceList = voiceList;
+      });
       this.userService.roomMap.get(room).OPListChanges.subscribe(opList => {
         this.opList = opList;
       });
@@ -119,12 +116,14 @@ export class PeopleListComponent implements OnInit {
     });
     return knownRoomsWithoutUser;
   }
+
   onSubmit() {
     const userInputInTemplateForm = {};
     this.socketService.sendEvent('Logout', userInputInTemplateForm);
     this.socketService.disconnect();
     this.router.navigate(['/login']);
   }
+
   toSettings() {
     this.router.navigate(['/settings']);
   }
