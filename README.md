@@ -149,7 +149,8 @@ Dem User werden UI-Alerts angezeigt um ihn über Vorgänge zu informieren. Wie d
 
 ### Felix Kampfer
 
-* Präsentationsfolien
+* **Masterstudium-Zusatzleistung**: Vortrag zum Thema "Vergleich von Datenbanken"
+* Präsentationsfolien für die Projektvorstellung
 * Giphy-Integration
 * Überholung der Kommunikation mit dem Backend (BehaviorSubjects)
 * Zeitdarstellung von Nachrichten
