@@ -7,6 +7,7 @@ Das Frontend kann wie folgt gestartet werden:
 ```shell
 git clone https://r-n-d.informatik.hs-augsburg.de:8080/kampferf/single-page-chatapp.git
 cd single-page-chatapp
+npm install
 ng serve
 ```
 
