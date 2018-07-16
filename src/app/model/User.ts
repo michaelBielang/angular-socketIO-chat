@@ -16,10 +16,12 @@ export class User {
     this._email = value;
   }
 
+  //TODO
   get username(): String {
     return this._username;
   }
 
+  //TODO
   set username(value: String) {
     this._username = value;
   }

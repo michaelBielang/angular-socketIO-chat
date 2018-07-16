@@ -13,11 +13,6 @@ export class RoomSettingsComponent implements OnInit {
 
   constructor(public actionService: ActionService, public userService: UserServiceService) { }
 
-  showIt(value) {
-    console.log('showIt called');
-    console.log(value);
-  }
-
   ngOnInit() {
   }
 

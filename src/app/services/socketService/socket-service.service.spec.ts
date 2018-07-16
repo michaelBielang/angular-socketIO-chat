@@ -1,5 +1,4 @@
-import {inject, TestBed} from '@angular/core/testing';
-import {BackendResponse} from '../../model/BackendResponse';
+import {TestBed} from '@angular/core/testing';
 
 import {SocketServiceService} from './socket-service.service';
 
@@ -20,16 +19,15 @@ describe('SocketServiceService', () => {
   });
   let field;
 
-/*  it('should be created', inject([SocketServiceService], (service: SocketServiceService) => {
-    expect(SocketServiceService).toBeTruthy();
-    socketService.sendEvent('Login');
+  /*  it('should be created', inject([SocketServiceService], (service: SocketServiceService) => {
+      expect(SocketServiceService).toBeTruthy();
+      socketService.sendEvent('Login');
 
-    this.socketService.receiveEvents('LoggedIn').subscribe((message: MessageEvent) => {
-      const obj: BackendResponse = JSON.parse(message.data);
-      field = obj.value;
+      this.socketService.receiveEvents('LoggedIn').subscribe((message: MessageEvent) => {
+        const obj: BackendResponse = JSON.parse(message.data);
+        field = obj.value;
 
-    });
-    console.log(field);*/
+      });
+      console.log(field);*/
 
-  }));
 });

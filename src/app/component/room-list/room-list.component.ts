@@ -15,7 +15,7 @@ export class RoomListComponent implements OnInit {
   rooms: Map<String, Rooms>;
   roomList: any[];
 
-  constructor(private socketService: SocketService, public userService: UserServiceService, private actionService: ActionService) {
+  constructor(private socketService: SocketService, public userService: UserServiceService) {
     // this.rooms = userService.roomMap.keys();
   }
 
