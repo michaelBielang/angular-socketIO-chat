@@ -1,4 +1,3 @@
-import {User} from './User';
 import {MessageSet} from './MessageSet';
 import {Message} from './Message';
 import {BehaviorSubject} from 'rxjs/index';

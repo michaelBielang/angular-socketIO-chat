@@ -20,10 +20,4 @@ export class Message {
   plainText(): string {
     return this.date + ' | ' + this.author + ':' + this.text;
   }
-
-  printToConsole(): void {
-    console.log(this.plainText());
-  }
 }
-
-export default Message;

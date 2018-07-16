@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Observer, Subject} from 'rxjs/index';
 import {filter} from 'rxjs/operators';
-import {BackendResponse} from "../../model/BackendResponse";
-import {InviteOPVoice} from "../../model/InviteOPVoice";
 
 @Injectable({
   providedIn: 'root'

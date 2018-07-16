@@ -31,5 +31,3 @@ export class MessageSet {
   }
 
 }
-
-export default MessageSet;

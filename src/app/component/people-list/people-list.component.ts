@@ -1,10 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {Rooms} from '../../model/Rooms';
+import {Component, OnInit} from '@angular/core';
 import {SocketService} from '../../services/socketService/socket-service.service';
 import {UserServiceService} from '../../services/userService/user-service.service';
-import {User} from '../../model/User';
 import {BackendResponse} from '../../model/BackendResponse';
-import {Message} from '../../model/Message';
 import {ActionService} from '../../services/actionService/action.service';
 
 @Component({
@@ -20,7 +17,7 @@ export class PeopleListComponent implements OnInit {
   opList: Set<string>;
   currentUser: string;
 
-  constructor(private socketService: SocketService, private userService: UserServiceService, private actionService: ActionService) {
+  constructor(private socketService: SocketService, private userService: UserServiceService) {
     this.currentUser = this.userService.currentUser.email + '';
   }
 
@@ -76,10 +73,12 @@ export class PeopleListComponent implements OnInit {
       }
     });
   }
+
   // only use this method to process server events, not to change permissions
-  addPersonToList(roomName: string, listName: string, email: string, username= 'unknown') {
+  addPersonToList(roomName: string, listName: string, email: string) {
     this.userService.roomMap.get(roomName)[listName].add(email);
   }
+
   // only use this method to process server events, not to change permissions
   removePersonFromList(roomName: string, listName: string, email: string) {
     this.userService.roomMap.get(roomName)[listName].delete(email);
@@ -87,8 +86,8 @@ export class PeopleListComponent implements OnInit {
 
   invitableRooms(userEmail: string): string[] {
     const knownRoomsWithoutUser = [];
-    this.userService.roomMap.forEach(function(roomObj, roomName) {
-      if (! roomObj.userList.has(userEmail)) {
+    this.userService.roomMap.forEach(function (roomObj, roomName) {
+      if (!roomObj.userList.has(userEmail)) {
         knownRoomsWithoutUser.push(roomName);
       }
     });
