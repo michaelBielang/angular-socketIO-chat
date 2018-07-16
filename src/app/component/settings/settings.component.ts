@@ -21,8 +21,8 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.settingsForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      oldPassword: ['', [Validators.required, Validators.minLength(5)]],
-      newPassword: ['', [Validators.required, Validators.minLength(5)]],
+      oldPassword: ['', [Validators.required, Validators.minLength(4)]],
+      newPassword: ['', [Validators.required, Validators.minLength(4)]],
       newUsername: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
