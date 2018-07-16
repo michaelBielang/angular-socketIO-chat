@@ -107,10 +107,9 @@ Benutzer können sich über die Registrierungskomponente registrieren.
 Die Rollen von Personen im Raum werden durch Icons neben dem Namen dargestellt. OP's können im Dropdown Actions auf jeweilige Personen wirken, welche den Personen Rechte entziehen oder geben.
 Außerdem funktioniert dies auch konsolenbasiert mit Befehl wie zum Beispiel `/giveop user-mail`, `/kick user-mail`, `/removeop user-mail`, `/givevoice user-mail` oder `/removevoice user-mail`.
 
-### Verwalten des Raums (kommandozeile und via GUI)
+### Verwalten des Raums (via GUI)
 
 Der Raum kann von OP's in der rechten Ecke des Chatfensters administriert werden.
-Außerdem kann beispielweise via `/`
 
 ### Giphy Integration
 
