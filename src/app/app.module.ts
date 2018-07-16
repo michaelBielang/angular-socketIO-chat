@@ -16,6 +16,7 @@ import {SettingsComponent} from './component/settings/settings.component';
 import {MessagesDisplayAndInputComponent} from './component/messages-display-and-input/messages-display-and-input.component';
 import {PeopleListComponent} from './component/people-list/people-list.component';
 import { RoomSettingsComponent } from './component/room-settings/room-settings.component';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { RoomSettingsComponent } from './component/room-settings/room-settings.c
     SettingsComponent,
     MessagesDisplayAndInputComponent,
     PeopleListComponent,
-    RoomSettingsComponent
+    RoomSettingsComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

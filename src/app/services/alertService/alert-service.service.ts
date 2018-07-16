@@ -62,6 +62,5 @@ export class AlertService {
   public notifyUser(event: String, room: string) {
     this.relevantRoom = room;
     // todo display information
-    // todo invitation with yes/now
   }
 }

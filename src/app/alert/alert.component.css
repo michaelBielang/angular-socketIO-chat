@@ -1,0 +1,6 @@
+.right-corner {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  min-width: 74vw;
+}
