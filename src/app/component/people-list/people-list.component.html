@@ -3,13 +3,20 @@
   <ul class="list-group list-group-flush">
     <li *ngFor="let user of userList" class="list-group-item">
       <div class="row">
-        <div style="padding: 4px 8px 8px 4px;">{{ user }}
+        <div style="padding: 4px 8px 8px 4px;">{{ user }} &nbsp;
+          <span *ngIf="voiceList.has(user); else voiceElseBlock">
+            <i class="fa fa-microphone"></i>
+          </span>
+          <ng-template #voiceElseBlock>
+            <i class="fa fa-microphone-slash"></i>
+          </ng-template>
           &nbsp;
-          <span *ngIf="voiceList.has(user); else voiceElseBlock"><i class="fa fa-microphone"></i></span>
-          <ng-template #voiceElseBlock><i class="fa fa-microphone-slash"></i></ng-template>
-          &nbsp;
-          <span *ngIf="opList.has(user); else opElseBlock"><i class="fa fa-user-circle-o"></i></span>
-          <ng-template #opElseBlock><i class="fa fa-user"></i></ng-template>
+          <span *ngIf="opList.has(user); else opElseBlock">
+            <i class="fa fa-user-circle-o"></i>
+          </span>
+          <ng-template #opElseBlock>
+            <i class="fa fa-user"></i>
+          </ng-template>
         </div>
         <div class="dropdown col">
           <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown">Actions
@@ -18,41 +25,38 @@
             <!-- If currentUser is mod !-->
             <div *ngIf="opList.has(currentUser)">
               <!-- kick -->
-              <button class="dropdown-item" type="button"
-                      (click)="this.actionService.kick(user, activeRoom);">
+              <button class="dropdown-item" type="button" (click)="this.actionService.kick(user, activeRoom);">
                 Kick
               </button>
               <!-- If user has voice "revoke voice"-->
               <!-- else "give voice"-->
               <span *ngIf="voiceList.has(user); else voiceActionElseBlock">
-                <button class="dropdown-item" type="button"
-                        (click)="this.actionService.removeVoice(user, activeRoom);">
+                <button class="dropdown-item" type="button" (click)="this.actionService.removeVoice(user, activeRoom);">
                   Revoke Voice
-                </button></span>
+                </button>
+              </span>
               <ng-template #voiceActionElseBlock>
-                <button class="dropdown-item" type="button"
-                        (click)="this.actionService.grantVoice(user, activeRoom);">
+                <button class="dropdown-item" type="button" (click)="this.actionService.grantVoice(user, activeRoom);">
                   Give Voice
-                </button></ng-template>
+                </button>
+              </ng-template>
               <!-- If user has op "revoke op"-->
               <!-- else "make op"-->
               <span *ngIf="opList.has(user); else opActionElseBlock">
-                <button class="dropdown-item" type="button"
-                        (click)="this.actionService.removeOp(user, activeRoom);">
+                <button class="dropdown-item" type="button" (click)="this.actionService.removeOp(user, activeRoom);">
                   Revoke OP
-                </button></span>
+                </button>
+              </span>
               <ng-template #opActionElseBlock>
-                <button class="dropdown-item" type="button"
-                        (click)="this.actionService.grantOp(user, activeRoom);">
+                <button class="dropdown-item" type="button" (click)="this.actionService.grantOp(user, activeRoom);">
                   Give OP
-                </button></ng-template>
+                </button>
+              </ng-template>
             </div>
 
-              <!-- Kick User !-->
+            <!-- Kick User !-->
             <!-- EndIf currentUser is mod !-->
-            <button *ngFor="let room of invitableRooms(user)" class="dropdown-item" type="button"
-                    (click)="this.actionService.invite(user, room)"
-            >Invite user to {{room}}</button>
+            <button *ngFor="let room of invitableRooms(user)" class="dropdown-item" type="button" (click)="this.actionService.invite(user, room)">Invite user to {{room}}</button>
 
             <!-- for room in invitableRooms (if the user isn't already in the corresponding userList): invite !-->
             <!-- EndFor !-->
@@ -62,3 +66,13 @@
     </li>
   </ul>
 </div>
+<form (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <button class="btn btn-primary">Logout</button>
+  </div>
+</form>
+<form (ngSubmit)="toSettings()">
+  <div class="form-group">
+    <button class="btn btn-primary">Settings</button>
+  </div>
+</form>

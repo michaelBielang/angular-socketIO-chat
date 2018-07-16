@@ -49,7 +49,7 @@ export class SettingsComponent implements OnInit {
       newPassword: newPassword
     };
 
-//TODO send success by alertService if succeeded
+// TODO send success by alertService if succeeded
 
     this.socketService.sendEvent('ChangeUserPassword', ChangeUserPassword);
     this.socketService.sendEvent('RenameUser', renameUser);
