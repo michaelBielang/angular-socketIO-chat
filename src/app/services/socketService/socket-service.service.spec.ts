@@ -30,8 +30,4 @@ describe('SocketServiceService', () => {
       });
       console.log(field);*/
 
-})
-)
-;
-})
-;
+});

@@ -49,7 +49,7 @@ export class PeopleListComponent implements OnInit {
       const obj: BackendResponse = JSON.parse(message);
       switch (obj.type) {
         case 'RoomJoined':
-          this.addPersonToList(obj.value.roomName, 'userList', obj.value.email, obj.value.name);
+          this.addPersonToList(obj.value.roomName, 'userList', obj.value.email);
           break;
         case 'RoomLeft':
           this.removePersonFromList(obj.value.roomName, 'userList', obj.value.email);
