@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SocketService } from '../../services/socketService/socket-service.service';
 import { UserServiceService } from '../../services/userService/user-service.service';
 import {Rooms} from '../../model/Rooms';
-import {ActionService} from "../../services/actionService/action.service";
+import {ActionService} from '../../services/actionService/action.service';
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',

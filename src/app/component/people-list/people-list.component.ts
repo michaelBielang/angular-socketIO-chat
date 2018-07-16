@@ -86,11 +86,11 @@ export class PeopleListComponent implements OnInit {
   }
 
   invitableRooms(userEmail: string): string[] {
-    let knownRoomsWithoutUser = [];
+    const knownRoomsWithoutUser = [];
     this.userService.roomMap.forEach(function(roomObj, roomName) {
       console.log(roomName);
       if (! roomObj.userList.has(userEmail)) {
-        knownRoomsWithoutUser.push(roomName)
+        knownRoomsWithoutUser.push(roomName);
       }
     });
     return knownRoomsWithoutUser;

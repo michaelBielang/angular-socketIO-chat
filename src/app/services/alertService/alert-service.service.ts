@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {NavigationStart, Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
-import {UserServiceService} from "../userService/user-service.service";
+import {UserServiceService} from '../userService/user-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +61,7 @@ export class AlertService {
    */
   public notifyUser(event: String, room: string) {
     this.relevantRoom = room;
-    //todo display information
-    //todo invitation with yes/now
+    // todo display information
+    // todo invitation with yes/now
   }
 }
