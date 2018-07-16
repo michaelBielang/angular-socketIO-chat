@@ -11,15 +11,15 @@ ng serve
 ```
 
 Nun das Chatbackend (Java-Server) starten.
-Nachdem die App gebaut wurde rufen Sie `localhost:4200`.
+Nachdem die App gebaut wurde rufen Sie `localhost:4200` auf.
 
 ## Architektur
 
 ### Dienste
 
-* SocketService
-* UserService
-* AlertService
+* SocketService: Verantwortlich für die Kommunikation mit dem Backend
+* UserService: Verwantwortlich für das Zwischenspeichern von Raumdaten, darunter Nachrichten, Benutzer und Benutzerberechtigungen.
+* AlertService: Verwantwortlich für die Benachrichtigung des Benutzers bei eintretenden Events.
 
 ### Komponenten
 
